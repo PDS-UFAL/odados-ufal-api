@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :forms
   resources :users
   resources :sectors
   post '/login', to: 'auth#login'

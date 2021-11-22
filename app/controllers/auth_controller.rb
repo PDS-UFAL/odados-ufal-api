@@ -9,7 +9,7 @@ class AuthController < ApplicationController
       
       render json: { user: user, token: auth_token }
     else
-      render json: { error: 'Email ou senha inválidos' }, status: :not_found
+      render json: { error: 'Email ou senha inválidos' }, status: :unauthorized
     end
   end
 

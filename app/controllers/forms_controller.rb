@@ -5,7 +5,7 @@ class FormsController < ApplicationController
   def index
     @forms = Form.all
     
-    render json: @forms, except: :questions
+    render json: @forms, each_serializer: Lists::FormSerializer
   end
 
   # GET /forms/1

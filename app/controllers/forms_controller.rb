@@ -4,8 +4,8 @@ class FormsController < ApplicationController
   # GET /forms
   def index
     @forms = Form.all
-
-    render json: @forms
+    
+    render json: @forms, except: :questions
   end
 
   # GET /forms/1
@@ -46,6 +46,6 @@ class FormsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def form_params
-      params.require(:form).permit(:questions, :title, :initial_date, :end_date)
+      params.require(:form).permit(:title, :initial_date, :end_date, questions: [:name, :type, params: [ :max_char, :required ]])
     end
 end

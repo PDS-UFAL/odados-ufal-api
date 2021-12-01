@@ -5,24 +5,18 @@
 #  id           :bigint           not null, primary key
 #  end_date     :date
 #  initial_date :date
-#  questions    :jsonb
+#  sections     :jsonb
 #  title        :string
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #
 class Form < ApplicationRecord
-	validate :is_questions_an_array?, :is_questions_valid?
+	validates_presence_of :title, :initial_date, :end_date
+	validate :is_sections_an_array?
 
 	private
 
-	def is_questions_an_array?
-		errors.add(:questions, "Invalid form") unless questions.is_a? Array
+	def is_sections_an_array?
+		errors.add(:sections, "Invalid form") unless sections.is_a? Array
 	end
-
-	def is_questions_valid?
-		errors.add(:questions.name) if questions.name.nil?
-		errors.add(:questions.params) if questions.params.nil?
-		errors.add(:questions.type) if questions.type.nil?
-	end
-	
 end

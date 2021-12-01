@@ -5,6 +5,7 @@
 #  id              :bigint           not null, primary key
 #  email           :string
 #  password_digest :string
+#  role            :integer          default("employee"), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  sector_id       :bigint

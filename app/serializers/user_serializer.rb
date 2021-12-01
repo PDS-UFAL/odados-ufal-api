@@ -19,5 +19,6 @@
 #  fk_rails_...  (sector_id => sectors.id)
 #
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :role, :sector
+  attributes :id, :email, :role
+  has_one :sector
 end

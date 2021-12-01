@@ -2,6 +2,7 @@ class ApplicationController < ActionController::API
   include ExceptionHandler
 
   before_action :authenticate_user
+  load_and_authorize_resource
 
   attr_reader :current_user
 

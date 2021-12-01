@@ -1,4 +1,9 @@
 class FormsController < ApplicationController
+  ALLOWED_ACTIONS_WITHOUT_USER = []
+
+  skip_before_action :authenticate_user, only: ALLOWED_ACTIONS_WITHOUT_USER
+  skip_load_and_authorize_resource only: ALLOWED_ACTIONS_WITHOUT_USER
+
   before_action :set_form, only: [:show, :update, :destroy]
 
   # GET /forms

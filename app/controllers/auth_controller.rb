@@ -1,5 +1,8 @@
 class AuthController < ApplicationController
-  skip_before_action :authenticate_user, only: [:login]
+  ALLOWED_ACTIONS_WITHOUT_USER = [:login]
+
+  skip_before_action :authenticate_user, only: ALLOWED_ACTIONS_WITHOUT_USER
+  skip_load_and_authorize_resource only: ALLOWED_ACTIONS_WITHOUT_USER
 
   def login
     user = User.find_by(email: user_params[:email])

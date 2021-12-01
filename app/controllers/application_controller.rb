@@ -21,4 +21,17 @@ class ApplicationController < ActionController::API
       end
     end
   end
+
+  def pagination_info(collection)
+    if params[:page].present?
+      {
+        total_pages: collection.total_pages,
+        total_count: collection.total_count
+      }
+    end
+  end
+
+  def sort_directions
+    ["asc", "desc"]
+  end
 end

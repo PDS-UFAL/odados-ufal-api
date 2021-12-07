@@ -10,18 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_01_004853) do
+ActiveRecord::Schema.define(version: 2021_12_01_162631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "forms", force: :cascade do |t|
-    t.jsonb "sections"
+    t.jsonb "sections", default: "{}", null: false
     t.string "title"
     t.date "initial_date"
     t.date "end_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "forms_sectors", id: false, force: :cascade do |t|
+    t.bigint "form_id", null: false
+    t.bigint "sector_id", null: false
+    t.index ["form_id"], name: "index_forms_sectors_on_form_id"
+    t.index ["sector_id"], name: "index_forms_sectors_on_sector_id"
   end
 
   create_table "sectors", force: :cascade do |t|

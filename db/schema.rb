@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2021_12_01_162631) do
   enable_extension "plpgsql"
 
   create_table "forms", force: :cascade do |t|
-    t.jsonb "sections", default: "{}", null: false
+    t.jsonb "sections"
     t.string "title"
     t.date "initial_date"
     t.date "end_date"

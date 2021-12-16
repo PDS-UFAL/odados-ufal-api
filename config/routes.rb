@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
-  resources :forms
-  resources :users do 
-    get '/me', to: 'users#me', on: :collection
+  scope 'api' do
+    post '/login', to: 'authentications#login'
+    
+    resources :users do 
+      get '/me', to: 'users#me', on: :collection
+    end
+
+    resources :forms
+    resources :sectors
   end
-  resources :sectors
-  resources :forms
-  post '/login', to: 'auth#login'
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

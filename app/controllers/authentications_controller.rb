@@ -1,4 +1,4 @@
-class AuthController < ApplicationController
+class AuthenticationsController < ApplicationController
   ALLOWED_ACTIONS_WITHOUT_USER = [:login]
 
   skip_before_action :authenticate_user, only: ALLOWED_ACTIONS_WITHOUT_USER

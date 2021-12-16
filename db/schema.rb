@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2021_12_01_162631) do
     t.date "end_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "status", default: 1, null: false
   end
 
   create_table "forms_sectors", id: false, force: :cascade do |t|

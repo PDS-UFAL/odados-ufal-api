@@ -22,6 +22,7 @@ class User < ApplicationRecord
   has_secure_password
 
   belongs_to :sector, optional: true
+  has_many :responses
 
   enum role: {
     admin: 0,

@@ -2,22 +2,31 @@
 #
 # Table name: forms
 #
-#  id           :bigint           not null, primary key
-#  end_date     :date
-#  initial_date :date
-#  sections     :jsonb
-#  title        :string
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id         :bigint           not null, primary key
+#  end_date   :date
+#  start_date :date
+#  status     :integer          default("open"), not null
+#  title      :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 class Form < ApplicationRecord
-	has_and_belongs_to_many :sectors
-	validates_presence_of :title, :initial_date, :end_date
-	validate :is_sections_an_array?
+	has_many :sections
+	has_many :form_sectors
+	has_many :sectors, through: :form_sectors
 
-	private
+	accepts_nested_attributes_for :sections, allow_destroy: true
 
-	def is_sections_an_array?
-		errors.add(:sections, "Invalid form") unless sections.is_a? Array
-	end
+  enum status: {
+    closed: 0,
+    open: 1
+  }
+
+	validates :title, presence: true
+	validates :status, presence: true
+	validates :start_date, presence: true, date: {
+			after_or_equal_to: Time.current.midnight,
+			message: "deve ser pelo menos #{(Time.current.midnight).to_s}"
+	}, on: :create
+	validates :end_date, presence: true, date: { after: :start_date, message: "deve ser depois da data inicial" }
 end

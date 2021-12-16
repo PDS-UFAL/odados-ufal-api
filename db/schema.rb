@@ -34,6 +34,20 @@ ActiveRecord::Schema.define(version: 2021_12_01_162631) do
     t.integer "status", default: 1, null: false
   end
 
+  create_table "questions", force: :cascade do |t|
+    t.string "title"
+    t.string "type"
+    t.boolean "required"
+    t.integer "max_char"
+    t.integer "max_value"
+    t.integer "min_value"
+    t.string "options", default: [], array: true
+    t.bigint "section_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["section_id"], name: "index_questions_on_section_id"
+  end
+
   create_table "sections", force: :cascade do |t|
     t.string "name"
     t.bigint "form_id", null: false
@@ -62,6 +76,7 @@ ActiveRecord::Schema.define(version: 2021_12_01_162631) do
 
   add_foreign_key "form_sectors", "forms"
   add_foreign_key "form_sectors", "sectors"
+  add_foreign_key "questions", "sections"
   add_foreign_key "sections", "forms"
   add_foreign_key "users", "sectors"
 end

@@ -51,22 +51,17 @@ class FormsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def form_params
-      params.require(:form).permit(:title, :initial_date, :end_date,
-        sections: [:name, questions: 
-          [
-            :name,
+      params.require(:form).permit(:title, :start_date, :end_date, sector_ids: [],
+        sections_attributes: [
+          :name,
+          questions_attributes: [
+            :title,
             :type,
-            :max_char,
             :required,
-            :min_value,
+            :max_char,
             :max_value,
-            options: [:name],
-            responses: [
-              :user_id,
-              :response,
-              :created_at,
-              :updated_at
-            ]
+            :min_value,
+            options: [],
           ]
         ]
       )

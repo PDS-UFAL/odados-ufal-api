@@ -11,8 +11,11 @@
 #  updated_at :datetime         not null
 #
 class Form < ApplicationRecord
+	has_many :sections
 	has_many :form_sectors
 	has_many :sectors, through: :form_sectors
+
+	accepts_nested_attributes_for :sections, allow_destroy: true
 
   enum status: {
     closed: 0,

@@ -12,4 +12,5 @@
 #
 class FormSerializer < ActiveModel::Serializer
   attributes :id, :title, :start_date, :end_date, :status, :created_at, :updated_at
+  has_many :sections
 end

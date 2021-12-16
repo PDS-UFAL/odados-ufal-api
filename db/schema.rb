@@ -34,11 +34,12 @@ ActiveRecord::Schema.define(version: 2021_12_01_162631) do
     t.integer "status", default: 1, null: false
   end
 
-  create_table "forms_sectors", id: false, force: :cascade do |t|
+  create_table "sections", force: :cascade do |t|
+    t.string "name"
     t.bigint "form_id", null: false
-    t.bigint "sector_id", null: false
-    t.index ["form_id"], name: "index_forms_sectors_on_form_id"
-    t.index ["sector_id"], name: "index_forms_sectors_on_sector_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["form_id"], name: "index_sections_on_form_id"
   end
 
   create_table "sectors", force: :cascade do |t|
@@ -61,5 +62,6 @@ ActiveRecord::Schema.define(version: 2021_12_01_162631) do
 
   add_foreign_key "form_sectors", "forms"
   add_foreign_key "form_sectors", "sectors"
+  add_foreign_key "sections", "forms"
   add_foreign_key "users", "sectors"
 end

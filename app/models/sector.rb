@@ -10,7 +10,8 @@
 #  updated_at  :datetime         not null
 #
 class Sector < ApplicationRecord
-  has_and_belongs_to_many :forms
+  has_many :form_sectors
+  has_many :forms, through: :form_sectors
   has_many :users
 
   EMAIL_REGEX = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/.freeze

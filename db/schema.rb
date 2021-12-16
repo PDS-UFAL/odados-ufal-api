@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 2021_12_01_162631) do
 
   create_table "forms", force: :cascade do |t|
     t.string "title"
-    t.date "initial_date"
+    t.date "start_date"
     t.date "end_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

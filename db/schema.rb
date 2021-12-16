@@ -27,11 +27,11 @@ ActiveRecord::Schema.define(version: 2021_12_15_142635) do
 
   create_table "forms", force: :cascade do |t|
     t.string "title"
+    t.integer "status", default: 1, null: false
     t.date "start_date"
     t.date "end_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "status", default: 1, null: false
   end
 
   create_table "questions", force: :cascade do |t|
@@ -77,10 +77,10 @@ ActiveRecord::Schema.define(version: 2021_12_15_142635) do
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
+    t.integer "role", default: 1, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "sector_id"
-    t.integer "role", default: 1, null: false
     t.index ["sector_id"], name: "index_users_on_sector_id"
   end
 

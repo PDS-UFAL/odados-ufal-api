@@ -5,12 +5,13 @@ class Ability
 
   def initialize(user)
     if user.present?
-      can [:read, :update], User, id: user.id
+      can [:read, :update, :me], User, id: user.id
 
       if user.admin?
         can :manage, :all
       elsif user.employee?
-        can :update, Form
+        can :read, Form
+        can :read, Sector, id: user.sector_id
       end
     end
   end

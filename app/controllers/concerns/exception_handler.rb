@@ -6,8 +6,12 @@ module ExceptionHandler
       render json: { message: e.message }, status: :not_found
     end
 
-    rescue_from CanCan::AccessDenied do |exception|
-      render json: { error: exception.message }, status: :forbidden
+    rescue_from CanCan::AccessDenied do |e|
+      render json: { error: e.message }, status: :forbidden
+    end
+    
+    rescue_from ActiveRecord::RecordInvalid, AASM::InvalidTransition do |e|
+      render json: { error: e.message }, status: :unprocessable_entity
     end
   end
 end

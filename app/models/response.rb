@@ -23,5 +23,5 @@ class Response < ApplicationRecord
   belongs_to :question
   belongs_to :user
 
-  validates_presence_of :answer
+  validates :answer, presence: true, if: -> { self.question.required }
 end

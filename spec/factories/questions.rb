@@ -8,8 +8,8 @@
 #  min_value  :integer
 #  options    :string           default([]), is an Array
 #  required   :boolean
-#  title      :string
-#  type       :string
+#  title      :string           not null
+#  type       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  section_id :bigint           not null

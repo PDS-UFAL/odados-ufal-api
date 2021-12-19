@@ -11,6 +11,8 @@
 #  updated_at :datetime         not null
 #
 class Form < ApplicationRecord
+  include Form::Stateable
+
 	has_many :sections
 	has_many :form_sectors
 	has_many :sectors, through: :form_sectors

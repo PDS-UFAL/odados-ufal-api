@@ -20,12 +20,15 @@
 #  fk_rails_...  (sector_id => sectors.id)
 #
 class FormSector < ApplicationRecord
+  include FormSector::Stateable
+
   belongs_to :form
   belongs_to :sector
 
   enum status: {
     waiting_response: 0,
     answered: 1,
-    closed: 2
+    waiting_resend: 2,
+    closed: 3
   }
 end

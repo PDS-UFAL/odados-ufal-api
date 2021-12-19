@@ -6,16 +6,19 @@ class SectorsController < ApplicationController
   
   before_action :set_sector, only: [:show, :update, :destroy]
 
+  # GET /sectors
   def index
     @sectors = Sector.all
 
     render json: @sectors
   end
 
+  # GET /sectors/1
   def show
     render json: @sector
   end
 
+  # POST /sectors
   def create
     @sector = Sector.new(sector_params)
 
@@ -26,6 +29,7 @@ class SectorsController < ApplicationController
     end
   end
 
+  # PATCH/PUT /sectors/1
   def update
     if @sector.update(sector_params)
       render json: @sector
@@ -34,6 +38,7 @@ class SectorsController < ApplicationController
     end
   end
 
+  # DELETE /sectors/1
   def destroy
     @sector.destroy
   end

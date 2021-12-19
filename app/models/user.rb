@@ -3,8 +3,8 @@
 # Table name: users
 #
 #  id              :bigint           not null, primary key
-#  email           :string
-#  password_digest :string
+#  email           :string           not null
+#  password_digest :string           not null
 #  role            :integer          default("employee"), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -31,9 +31,11 @@ class User < ApplicationRecord
 
   EMAIL_REGEX = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/.freeze
 
-  validates :email, uniqueness: true, presence: true, format: { with: EMAIL_REGEX, message: 'possui formato inválido' }
+  validates :email, uniqueness: true, presence: true, format: { with: EMAIL_REGEX, message: 'invalid format' }
+  validates :password_digest, presence: true
   validates :password, length: { minimum: 6 }, if: :password
   validates :role, presence: true
+  validates :sector_id, presence: true, if: :employee?
 
   scope :sector_id, ->(sector_id) { where(sector_id: sector_id) }
   scope :role, ->(role) { where(role: role) }

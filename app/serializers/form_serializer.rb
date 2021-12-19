@@ -11,30 +11,21 @@
 #  updated_at :datetime         not null
 #
 class FormSerializer < ActiveModel::Serializer
-  attributes :id, :title, :start_date, :end_date, :status, :created_at, :updated_at, :sections
+  attributes :id, :title, :start_date, :end_date, :status, :created_at, :updated_at, :sectors, :sections
+
+  def sectors
+    object.sectors&.map { |sector| SectorStatusSerializer.new(sector, form: object) }
+  end
 
   def sections
     object.sections&.map { |section| SectionSerializer.new(section) }
   end
 
-  class SectionSerializer < ActiveModel::Serializer
-    attributes :id, :name, :questions
+  class SectorStatusSerializer < ActiveModel::Serializer
+    attributes :id, :name, :status
 
-    def questions
-      object.questions&.map { |question| QuestionSerializer.new(question) }
-    end
-
-    class QuestionSerializer < ActiveModel::Serializer
-      attributes :id, :title, :type, :required, :max_char, :max_value, :min_value, :options, :responses
-      
-      def responses
-        object.responses&.map { |response| ResponseSerializer.new(response) }
-      end
-
-      class ResponseSerializer < ActiveModel::Serializer
-        attributes :id, :answer
-        has_one :user
-      end
+    def status
+      object.form_sectors&.find_by(form_id: @instance_options[:form].id).status
     end
   end
 end

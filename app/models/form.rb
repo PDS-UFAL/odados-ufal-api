@@ -26,7 +26,7 @@ class Form < ApplicationRecord
 	validates :status, presence: true
 	validates :start_date, presence: true, date: {
 			after_or_equal_to: Time.current.midnight,
-			message: "deve ser pelo menos #{(Time.current.midnight).to_s}"
+			message: "must be at least #{(Time.current.midnight).to_s}"
 	}, on: :create
-	validates :end_date, presence: true, date: { after: :start_date, message: "deve ser depois da data inicial" }
+	validates :end_date, presence: true, date: { after: :start_date, message: 'must be after the start date' }
 end

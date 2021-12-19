@@ -31,7 +31,7 @@ class User < ApplicationRecord
 
   EMAIL_REGEX = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/.freeze
 
-  validates :email, uniqueness: true, presence: true, format: { with: EMAIL_REGEX, message: 'possui formato inválido' }
+  validates :email, uniqueness: true, presence: true, format: { with: EMAIL_REGEX, message: 'invalid format' }
   validates :password_digest, presence: true
   validates :password, length: { minimum: 6 }, if: :password
   validates :role, presence: true

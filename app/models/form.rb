@@ -31,4 +31,18 @@ class Form < ApplicationRecord
 			message: "must be at least #{(Time.current.midnight).to_s}"
 	}, on: :create
 	validates :end_date, presence: true, date: { after: :start_date, message: 'must be after the start date' }
+
+	def can_respond? user
+		user&.employee? && open? && on_schedule? && allowed_in_the_form?(user)
+	end
+
+	private
+
+	def on_schedule?
+		(start_date..end_date).cover?(Time.current)
+	end
+
+	def allowed_in_the_form? user
+		sectors.any? { |sector| sector.id == user.sector_id }
+	end
 end

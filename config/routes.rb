@@ -8,5 +8,6 @@ Rails.application.routes.draw do
 
     resources :forms
     resources :sectors
+    resources :responses, only: [:create]
   end
 end

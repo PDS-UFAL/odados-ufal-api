@@ -35,6 +35,12 @@ class Form < ApplicationRecord
 	}, on: :create
 	validates :end_date, presence: true, date: { after: :start_date, message: 'must be after the start date' }
 
+	scope :title, ->(title) { where("title ilike :title", title: "%#{title}%") }
+	scope :status, ->(status) { where(status: status) }
+	scope :start_date, ->(start_date) { where("start_date >= ?", start_date) }
+	scope :end_date, ->(end_date) { where("end_date <= ?", end_date) }
+	scope :forms_by_sector, ->(sector_id) { joins(:form_sectors).where(form_sectors: { sector_id: sector_id }) }
+
 	before_create :set_status
 
 	def can_respond? user

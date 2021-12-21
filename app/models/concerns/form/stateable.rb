@@ -6,8 +6,12 @@ module Form::Stateable
 
     aasm column: :status, enum: true do
       state :open, initial: true
-      state :closed
+      state :closed, :not_started
       
+      event :start do
+        transitions from: :not_started, to: :open
+      end
+
       event :close do
         transitions from: :open, to: :closed
       end

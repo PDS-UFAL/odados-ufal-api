@@ -21,8 +21,11 @@ class Form < ApplicationRecord
 
   enum status: {
     closed: 0,
-    open: 1
+    open: 1,
+		not_started: 2
   }
+
+	after_find { |form| start if not_started? && on_schedule? }
 
 	validates :title, presence: true
 	validates :status, presence: true
@@ -31,6 +34,14 @@ class Form < ApplicationRecord
 			message: "must be at least #{(Time.current.midnight).to_s}"
 	}, on: :create
 	validates :end_date, presence: true, date: { after: :start_date, message: 'must be after the start date' }
+
+	scope :title, ->(title) { where("title ilike :title", title: "%#{title}%") }
+	scope :status, ->(status) { where(status: status) }
+	scope :start_date, ->(start_date) { where("start_date >= ?", start_date) }
+	scope :end_date, ->(end_date) { where("end_date <= ?", end_date) }
+	scope :forms_by_sector, ->(sector_id) { joins(:form_sectors).where(form_sectors: { sector_id: sector_id }) }
+
+	before_create :set_status
 
 	def can_respond? user
 		user&.employee? && open? && on_schedule? && allowed_in_the_form?(user)
@@ -44,5 +55,9 @@ class Form < ApplicationRecord
 
 	def allowed_in_the_form? user
 		sectors.any? { |sector| sector.id == user.sector_id }
+	end
+
+	def set_status
+		self.status = 'not_started' if start_date > Time.current
 	end
 end

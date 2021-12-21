@@ -1,13 +1,9 @@
 class ResponsesController < ApplicationController
-  skip_load_and_authorize_resource only: :create
-
-  before_action :set_form, only: [:create]
+  prepend_before_action :set_form, only: [:create]
   before_action :set_form_sector, only: [:create]
 
   # POST /responses
   def create
-    authorize! :create, Response
-
     Response.transaction do
       @responses = Response.create!(responses_params)
       @form_sector.respond!

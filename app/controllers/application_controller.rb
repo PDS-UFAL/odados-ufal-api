@@ -22,7 +22,7 @@ class ApplicationController < ActionController::API
     end
   end
 
-  def pagination_info(collection)
+  def pagination_info collection
     if params[:page].present?
       {
         total_pages: collection.total_pages,

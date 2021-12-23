@@ -10,8 +10,8 @@ class Ability
       if user.admin?
         can :manage, :all
       elsif user.employee?
-        can :read, Form
-        can :read, Sector, id: user.sector_id
+        can :read, Form, sectors: { id: user.sector.id }
+        can :read, Sector, id: user.sector.id
       end
     end
   end

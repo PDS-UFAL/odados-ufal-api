@@ -20,10 +20,10 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: <%= ENV.fetch("pgdc_api_database_host") %>
-  username: <%= ENV.fetch("pgdc_api_database_username") %>
-  password: <%= ENV.fetch("pgdc_api_database_password") %>
-  port: <%= ENV.fetch("pgdc_api_database_port") %>
+  host: <%= ENV.fetch("PGDC_API_DATABASE_HOST") %>
+  username: <%= ENV.fetch("PGDC_API_DATABASE_USERNAME") %>
+  password: <%= ENV.fetch("PGDC_API_DATABASE_PASSWORD") %>
+  port: <%= ENV.fetch("PGDC_API_DATABASE_PORT") %>
 
 development:
   <<: *default
@@ -86,5 +86,3 @@ test:
 production:
   <<: *default
   database: pgdc_api_production
-  username: pgdc_api
-  password: <%= ENV['PGDC_API_DATABASE_PASSWORD'] %>

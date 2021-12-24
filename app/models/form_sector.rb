@@ -31,4 +31,16 @@ class FormSector < ApplicationRecord
     waiting_resend: 2,
     closed: 3
   }
+
+  after_create :notify_users
+
+  private
+
+  def notify_users
+    sector.users.each { |user| user.send_form_notification(form) }
+  end
+
+  def notify_admins
+    User.role(:admin).each { |admin| admin.send_response_notification(form, sector) }
+  end
 end

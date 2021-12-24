@@ -39,4 +39,12 @@ class User < ApplicationRecord
 
   scope :sector_id, ->(sector_id) { where(sector_id: sector_id) }
   scope :role, ->(role) { where(role: role) }
+  
+  def send_form_notification form
+    UserMailer.with(user: self, form: form).form_creation.deliver_now
+  end
+
+  def send_response_notification form, sector
+    UserMailer.with(user: self, form: form, sector: sector).form_response.deliver_now
+  end
 end

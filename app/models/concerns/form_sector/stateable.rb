@@ -8,7 +8,7 @@ module FormSector::Stateable
       state :waiting_response, initial: true
       state :answered, :waiting_resend, :closed
       
-      event :respond do
+      event :respond, after: :notify_admins do
         transitions from: [:waiting_response, :waiting_resend], to: :answered
       end
 

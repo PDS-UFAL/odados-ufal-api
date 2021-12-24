@@ -19,7 +19,11 @@ class FormsController < ApplicationController
 
   # GET /forms/1
   def show
-    render json: @form
+    if @current_user.employee?
+      render json: @form, serializer: Employees::FormSerializer, user: @current_user
+    else
+      render json: @form
+    end
   end
 
   # POST /forms

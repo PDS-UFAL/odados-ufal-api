@@ -37,6 +37,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: true, presence: true, format: { with: EMAIL_REGEX, message: 'invalid format' }
   validates :password_digest, presence: true
   validates :password, length: { minimum: 6 }, if: :password
+  validates :password_confirmation, presence: true, if: :password
   validates :role, presence: true
   validates :sector_id, presence: true, if: :employee?
 

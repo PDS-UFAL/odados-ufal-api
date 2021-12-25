@@ -51,4 +51,32 @@ class User < ApplicationRecord
   def send_response_notification form, sector
     UserMailer.with(user: self, form: form, sector: sector).form_response.deliver_now
   end
+
+  def generate_password_token!
+    if self.update(reset_password_token: generate_token, reset_password_sent_at: Time.now.utc)
+      UserMailer.with(user: self).reset_password.deliver_now
+    else
+      false
+    end
+  end
+
+  def reset_password! reset_password_params
+    if is_reset_password_token_valid?
+      reset_password_params[:reset_password_token] = nil
+      self.update(reset_password_params)
+    else
+      errors.add(:reset_password_token, 'invalid')
+      false
+    end
+  end
+
+  private
+
+  def generate_token
+    SecureRandom.urlsafe_base64(20).tr('lIO0', 'sxyz')
+  end
+
+  def is_reset_password_token_valid?
+    (reset_password_sent_at + 4.hours) > Time.now.utc if reset_password_token.present?
+  end
 end

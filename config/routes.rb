@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   scope 'api' do
-    post '/login', to: 'authentications#login'
+    post 'login', to: 'authentications#login'
     
     resources :users do 
-      get '/me', to: 'users#me', on: :collection
+      get 'me', to: 'users#me', on: :collection
     end
 
     resources :forms

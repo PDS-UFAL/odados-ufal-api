@@ -2,17 +2,20 @@
 #
 # Table name: users
 #
-#  id              :bigint           not null, primary key
-#  email           :string           not null
-#  password_digest :string           not null
-#  role            :integer          default("employee"), not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  sector_id       :bigint
+#  id                     :bigint           not null, primary key
+#  email                  :string           not null
+#  password_digest        :string           not null
+#  reset_password_sent_at :datetime
+#  reset_password_token   :string
+#  role                   :integer          default("employee"), not null
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  sector_id              :bigint
 #
 # Indexes
 #
-#  index_users_on_sector_id  (sector_id)
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_sector_id             (sector_id)
 #
 # Foreign Keys
 #
@@ -20,5 +23,9 @@
 #
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :email, :role
-  has_one :sector
+  has_one :sector, unless: :admin?
+
+  def admin?
+    object.admin?
+  end
 end

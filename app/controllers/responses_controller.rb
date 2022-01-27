@@ -1,5 +1,5 @@
 class ResponsesController < ApplicationController
-  prepend_before_action :set_form, only: [:create]
+  prepend_before_action :set_form, only: [:create, :answers]
   before_action :set_form_sector, only: [:create]
 
   # POST /responses
@@ -10,6 +10,16 @@ class ResponsesController < ApplicationController
     end
 
     render json: @responses
+  end
+
+  # GET /responses/forms/form_id
+  def answers
+    if params[:sector_id].present?
+      sector = Sector.find(params[:sector_id])
+      render json: @form, serializer: Sectors::FormSerializer, sector: sector
+    else
+      render json: @form
+    end
   end
 
   private

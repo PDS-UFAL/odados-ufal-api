@@ -47,15 +47,15 @@ class Form < ApplicationRecord
 		user&.employee? && open? && on_schedule? && allowed_in_the_form?(user)
 	end
 
-	private
-
+	def allowed_in_the_form? user
+		sectors.any? { |sector| sector.id == user.sector_id }
+	end
+	
 	def on_schedule?
 		(start_date..end_date).cover?(Time.current)
 	end
 
-	def allowed_in_the_form? user
-		sectors.any? { |sector| sector.id == user.sector_id }
-	end
+	private
 
 	def set_status
 		self.status = 'not_started' if start_date > Time.current

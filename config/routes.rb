@@ -12,7 +12,9 @@ Rails.application.routes.draw do
 
     resources :forms
     resources :sectors
-    resources :responses, only: [:create]
+    resources :responses, only: [:create] do
+      get 'forms/:form_id', to: 'responses#answers', on: :collection
+    end
 
     mount Sidekiq::Web => '/sidekiq'
   end

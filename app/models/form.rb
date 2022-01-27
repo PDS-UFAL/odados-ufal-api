@@ -13,8 +13,8 @@
 class Form < ApplicationRecord
   include Form::Stateable
 
-	has_many :sections
-	has_many :form_sectors
+	has_many :sections, dependent: :destroy
+	has_many :form_sectors, dependent: :destroy
 	has_many :sectors, through: :form_sectors
 
 	accepts_nested_attributes_for :sections, allow_destroy: true

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  require 'sidekiq/web'
+
   scope 'api' do
     post 'login', to: 'authentications#login'
     
@@ -11,5 +13,7 @@ Rails.application.routes.draw do
     resources :forms
     resources :sectors
     resources :responses, only: [:create]
+
+    mount Sidekiq::Web => '/sidekiq'
   end
 end

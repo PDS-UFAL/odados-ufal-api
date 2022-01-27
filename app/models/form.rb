@@ -25,8 +25,6 @@ class Form < ApplicationRecord
 		not_started: 2
   }
 
-	after_find { |form| start if not_started? && on_schedule? }
-
 	validates :title, presence: true
 	validates :status, presence: true
 	validates :start_date, presence: true, date: {
@@ -40,6 +38,8 @@ class Form < ApplicationRecord
 	scope :start_date, ->(start_date) { where("start_date >= ?", start_date) }
 	scope :end_date, ->(end_date) { where("end_date <= ?", end_date) }
 	scope :forms_by_sector, ->(sector_id) { joins(:form_sectors).where(form_sectors: { sector_id: sector_id }) }
+	scope :expired, -> { where("end_date <= ?", Time.current) }
+	scope :eligible, -> { where("start_date <= ?", Time.current) }
 
 	before_create :set_status
 

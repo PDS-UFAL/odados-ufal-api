@@ -52,6 +52,10 @@ class User < ApplicationRecord
     UserMailer.with(user: self, form: form, sector: sector).form_response.deliver_now
   end
 
+  def send_form_reminder form
+    UserMailer.with(user: self, form: form).form_reminder.deliver_now
+  end
+
   def generate_password_token!
     if self.update(reset_password_token: generate_token, reset_password_sent_at: Time.now.utc)
       UserMailer.with(user: self).reset_password.deliver_now

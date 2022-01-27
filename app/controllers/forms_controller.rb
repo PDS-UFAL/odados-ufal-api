@@ -62,7 +62,9 @@ class FormsController < ApplicationController
         title: params[:title],
         status: params[:status],
         start_date: params[:start_date],
-        end_date: params[:end_date]
+        end_date: params[:end_date],
+        range_start_date: params[:range_start_date],
+        range_end_date: params[:range_end_date]
       }
 
       filter_params.merge!(forms_by_sector: @current_user.sector.id) if @current_user.employee?

@@ -40,6 +40,8 @@ class Form < ApplicationRecord
 	scope :forms_by_sector, ->(sector_id) { joins(:form_sectors).where(form_sectors: { sector_id: sector_id }) }
 	scope :expired, -> { where("end_date <= ?", Time.current) }
 	scope :eligible, -> { where("start_date <= ?", Time.current) }
+	scope :range_start_date, ->(range_start_date) { where("start_date >= ?", range_start_date) }
+	scope :range_end_date, ->(range_end_date) { where("start_date <= ?", range_end_date) }
 
 	before_create :set_status
 

@@ -36,6 +36,10 @@ gem 'date_validator', '~> 0.12.0'
 
 gem 'aasm'
 
+gem 'sidekiq', '~> 6.0.0'
+
+gem 'sidekiq-cron'
+
 gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
 
 group :development, :test do

@@ -37,10 +37,10 @@ class FormSector < ApplicationRecord
   private
 
   def notify_users
-    FormCreationNotifyUsersWorker.perform_async(sector, form)
+    FormCreationNotifyUsersWorker.perform_async(sector.id, form.id)
   end
 
   def notify_admins
-    FormResponseNotifyAdminsWorker.perform_async(sector, form)
+    FormResponseNotifyAdminsWorker.perform_async(sector.id, form.id)
   end
 end

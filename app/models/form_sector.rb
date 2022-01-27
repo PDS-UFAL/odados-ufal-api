@@ -37,10 +37,10 @@ class FormSector < ApplicationRecord
   private
 
   def notify_users
-    sector.users.each { |user| user.send_form_notification(form) }
+    FormCreationNotifyUsersWorker.perform_async(sector, form)
   end
 
   def notify_admins
-    User.role(:admin).each { |admin| admin.send_response_notification(form, sector) }
+    FormResponseNotifyAdminsWorker.perform_async(sector, form)
   end
 end

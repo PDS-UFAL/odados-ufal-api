@@ -26,4 +26,5 @@ jobs:
             touch .env
             echo "${{ secrets.SERVER_ENV_PROD }}" > .env
             cat .env
+            cd pgdc-api
             docker-compose up --build -d

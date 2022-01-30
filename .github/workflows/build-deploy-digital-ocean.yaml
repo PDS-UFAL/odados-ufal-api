@@ -7,20 +7,15 @@ on:
   workflow_dispatch:
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Check Out Repo 
         uses: actions/checkout@v2
 
-      - name: Deploy Ruby on Rails api
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          key: ${{ secrets.SSH_KEY }}
-          username: ${{ secrets.SSH_USERNAME }}
+      - name: Create env file
+        run: |
+        touch .env
+        echo "${{ secrets.SERVER_ENV_PROD }}" > .env
 
-          script: |
-            cd ${{ github.workspace }}
-            touch .env
-            echo "${{ secrets.SERVER_ENV_PROD }}" > .env
-            docker-compose up --build -d
+      - name: Build docker-compose
+        run: docker-compose up --build -d

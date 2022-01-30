@@ -6,28 +6,24 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Check Out Repo 
         uses: actions/checkout@v2
 
-      - name: Create env file
-        run: |
-          touch .env
-          echo "${{ secrets.SERVER_ENV_PROD }}" > .env
-          cat .env
-
-      - name: Build image
-        run: docker compose -f docker-compose.yml build
-
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
+      - name: Deploy Ruby on Rails app
+        uses: appleboy/ssh-action@v0.1.2
         with:
-          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          username: ${{ secrets.SSH_USERNAME }}
 
-      - name: Log in to DO Container Registry
-        run: doctl registry login --expiry-seconds 600
-
-      - name: Push image to DO Container Registry
-        run: docker compose -f docker-compose.yml push
+          script: |
+            mkdir pgdc-api
+            cd pgdc-api
+            git clone git@github.com:PDS-UFAL/pgdc-api.git
+            touch .env
+            echo "${{ secrets.SERVER_ENV_PROD }}" > .env
+            cat .env
+            docker-compose up --build -d

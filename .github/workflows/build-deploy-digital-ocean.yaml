@@ -12,7 +12,7 @@ jobs:
       - name: Check Out Repo 
         uses: actions/checkout@v2
 
-      - name: Deploy Ruby on Rails app
+      - name: Deploy Ruby on Rails api
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -20,11 +20,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
 
           script: |
-            mkdir app
-            cd app
-            git clone git@github.com:PDS-UFAL/pgdc-api.git
+            cd ${{ github.workspace }}
             touch .env
             echo "${{ secrets.SERVER_ENV_PROD }}" > .env
-            cat .env
-            cd pgdc-api
             docker-compose up --build -d

@@ -1,0 +1,15 @@
+<div class="card">
+  <p>
+    Novo formulário criado no sistema Observatório de Dados: <strong> <%= @form.title %> </strong>
+  </p>
+  <p>
+    Esse formulário foi associado ao seu setor: <strong> <%= @user.sector.name %> </strong>
+  </p>
+  
+  <p>
+    Data de início: <%= @form.start_date.strftime("%d-%m-%Y") %>
+  </p>
+  <p>
+    Data final: <%= @form.end_date.strftime("%d-%m-%Y") %>
+  </p>
+</div>

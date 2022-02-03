@@ -1,24 +1,43 @@
-# README
+##### Prerequisites
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The setups steps expect following tools installed on the system.
 
-Things you may want to cover:
+I recommend using the ruby ​on rails installation guide from [gorails](https://gorails.com/setup/ubuntu/20.04).
 
-* Ruby version
+- Github
+- Ruby **3.0.0**
+- Rails **6.1.4.1**
+- PostgreSQL **12**
+- Redis **5.0.7**
 
-* System dependencies
+##### 1. Check out the repository
 
-* Configuration
+```bash
+git clone git@github.com:PDS-UFAL/pgdc-api.git
+```
 
-* Database creation
+##### 2. Create .env file
 
-* Database initialization
+Copy the sample .env.example file and edit the environment variables as required.
 
-* How to run the test suite
+```bash
+cp .env.example .env
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+##### 3. Create and setup the database
 
-* Deployment instructions
+Run the following commands to create and setup the database.
 
-* ...
+```ruby
+bundle exec rails db:create db:migrate db:seed
+```
+
+##### 4. Start the Rails server
+
+You can start the rails server using the command given below.
+
+```ruby
+bundle exec rails s
+```
+
+And now you can use the api with the URL http://localhost:3000/api

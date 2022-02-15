@@ -13,7 +13,7 @@ I recommend using the ruby ​on rails installation guide from [gorails](https:/
 ##### 1. Check out the repository
 
 ```bash
-git clone git@github.com:PDS-UFAL/pgdc-api.git
+git clone git@github.com:PDS-UFAL/odados-ufal-api.git
 ```
 
 ##### 2. Create .env file

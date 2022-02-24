@@ -46,4 +46,5 @@ jobs:
             docker login -u ${{ secrets.DOCKER_HUB_USER }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
             docker-compose pull
             docker-compose down
+            docker-compose build --no-cache
             docker-compose up -d

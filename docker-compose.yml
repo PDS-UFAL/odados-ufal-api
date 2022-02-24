@@ -15,7 +15,8 @@ services:
     volumes:
       - .:/app
       - gem_cache:/usr/local/bundle/gems
-    env_file: .env
+    env_file: 
+      - .env
     environment:
       RAILS_ENV: production
   database:

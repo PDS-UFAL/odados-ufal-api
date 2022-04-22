@@ -8,7 +8,7 @@ class UserMailer < ApplicationMailer
   def form_response
     @form = params[:form]
     @sector = params[:sector]
-    mail(to: params[:user].email, from:"mhvo@ic.ufal.br", subject: "Uma nova resposta para o formulário: #{@form.title} foi enviada")
+    mail(to: params[:user].email, subject: "Uma nova resposta para o formulário: #{@form.title} foi enviada")
   end
 
   def form_reminder

@@ -1,5 +1,6 @@
 class Employees::FormSerializer < ActiveModel::Serializer
-  attributes :id, :title, :start_date, :end_date, :status, :created_at, :updated_at, :sections
+	attributes :id, :subtitle, :sectors, :start_date, :end_date, :status
+	has_one :form
 
   def sections
     object.sections&.map { |section| Employees::SectionSerializer.new(section, user: @instance_options[:user]) }

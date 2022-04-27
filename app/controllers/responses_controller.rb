@@ -1,5 +1,5 @@
 class ResponsesController < ApplicationController
-  prepend_before_action :set_form, only: [:create, :answers]
+  prepend_before_action :set_form_send, only: [:create, :answers]
   before_action :set_form_sector, only: [:create]
 
   # POST /responses
@@ -12,28 +12,28 @@ class ResponsesController < ApplicationController
     render json: @responses
   end
 
-  # GET /responses/forms/form_id
+  # GET /responses/forms/form_send_id
   def answers
     if params[:sector_id].present?
       sector = Sector.find(params[:sector_id])
-      render json: @form, serializer: Sectors::FormSerializer, sector: sector
+      render json: @form_send, serializer: Sectors::FormSerializer, sector: sector
     else
-      render json: @form
+      render json: @form_send
     end
   end
 
   private
 
-  def set_form
-    @form = Form.find(params[:form_id])
+  def set_form_send
+    @form_send = FormSend.find(params[:form_send_id])
   end
 
   def set_form_sector
-    @form_sector = @form.form_sectors.find_by(sector_id: @current_user.sector_id)
+    @form_sector = @form_send.form_sectors.find_by(sector_id: @current_user.sector_id)
   end
   
   def current_ability
-    @current_ability ||= ResponseAbility.new(@current_user, @form)
+    @current_ability ||= ResponseAbility.new(@current_user, @form_send)
   end
 
   def responses_params

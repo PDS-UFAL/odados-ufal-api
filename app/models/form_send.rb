@@ -25,6 +25,7 @@ class FormSend < ApplicationRecord
   belongs_to :form
 	has_many :form_sectors, dependent: :destroy
 	has_many :sectors, through: :form_sectors
+	# has_many :responses
 
   enum status: {
     closed: 0,

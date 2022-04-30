@@ -11,12 +11,12 @@ class FormsController < ApplicationController
     @forms = @forms.order("#{params[:sort_by]}": :"#{params[:sort_direction]}")
     @forms = @forms.page(params[:page]).per(params[:page_size] || 15) if params[:page].present?
 
-    render json: @forms
+    render json: @forms, each_serializer: Forms::FormSerializer
   end
 
   # GET /forms/1
   def show
-    render json: @form
+    render json: @form, serializer: Forms::FormSerializer
   end
 
   # POST /forms

@@ -16,7 +16,7 @@ class ResponsesController < ApplicationController
   def answers
     if params[:sector_id].present?
       sector = Sector.find(params[:sector_id])
-      render json: @form_send, serializer: Sectors::FormSerializer, sector: sector
+      render json: @form_send, serializer: Sectors::FormSendSerializer, sector: sector
     else
       render json: @form_send
     end
@@ -25,6 +25,7 @@ class ResponsesController < ApplicationController
   private
 
   def set_form_send
+    $fsend = params[:form_send_id]
     @form_send = FormSend.find(params[:form_send_id])
   end
 
@@ -39,6 +40,7 @@ class ResponsesController < ApplicationController
   def responses_params
     perm_params = params.permit(responses: [:answer, :question_id]).require(:responses)
     perm_params.map { |response| response[:user_id] = @current_user.id }
+    perm_params.map { |response| response[:fsend] = params[:form_send_id] }
     perm_params
   end
 end

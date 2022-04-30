@@ -4,6 +4,7 @@
 #
 #  id          :bigint           not null, primary key
 #  answer      :string
+#  fsend       :bigint
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  question_id :bigint           not null
@@ -22,6 +23,7 @@
 class Response < ApplicationRecord
   belongs_to :question
   belongs_to :user
+  # belongs_to :form_send
 
   validates :answer, presence: true, if: -> { self.question.required }
 end

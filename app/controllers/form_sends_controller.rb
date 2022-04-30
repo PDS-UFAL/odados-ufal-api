@@ -15,6 +15,7 @@ class FormSendsController < ApplicationController
     @form_sends = @form_sends.page(params[:page]).per(params[:page_size] || 15) if params[:page].present?
 
     render json: @form_sends, each_serializer: Lists::FormSerializer, meta: meta_info(@form_sends, status_count)
+
   end
 
   # GET /form_sends/1
@@ -29,7 +30,8 @@ class FormSendsController < ApplicationController
   # POST /form_sends
   def create
     @form_send = FormSend.new(form_send_params)
-
+    $fsend = @form_send.id
+    
     if @form_send.save
       render json: @form_send, status: :created, location: @form_send
     else
@@ -54,6 +56,7 @@ class FormSendsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_form_send
+      $fsend = params[:id]
       @form_send = FormSend.find(params[:id])
     end
 

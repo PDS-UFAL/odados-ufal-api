@@ -1,9 +1,8 @@
 class Lists::FormSerializer < ActiveModel::Serializer
-	attributes :id, :subtitle, :sectors, :start_date, :end_date, :status
-	has_one :form
+	attributes :id, :subtitle, :sectors, :start_date, :end_date, :status, :form
 
-	def id
-		$fsend = -1
-		object.id
+	def form
+		@form_send_id = object.id
+		FormSerializer.new(object.form, form_send_id: @form_send_id)
 	end
 end  

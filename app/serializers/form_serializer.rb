@@ -12,7 +12,7 @@ class FormSerializer < ActiveModel::Serializer
   attributes :id, :title, :description, :created_at, :updated_at, :sections
 
   def sections
-    object.sections&.map { |section| SectionSerializer.new(section) }
+    object.sections&.map { |section| SectionSerializer.new(section, form_send_id: @instance_options[:form_send_id]) }
   end
 
   class SectorStatusSerializer < ActiveModel::Serializer

@@ -4,6 +4,7 @@
 #
 #  id          :bigint           not null, primary key
 #  answer      :string
+#  fsend       :bigint
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  question_id :bigint           not null

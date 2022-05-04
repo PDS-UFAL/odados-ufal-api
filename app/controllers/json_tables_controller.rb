@@ -46,6 +46,11 @@ class JsonTablesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def json_table_params
-      params.require(:json_table).permit(:json_file)
+      request.body.rewind
+      @parsed = JSON.parse(request.body.read)
+      perm_params = {
+        json_file: @parsed
+      }
+      perm_params
     end
 end

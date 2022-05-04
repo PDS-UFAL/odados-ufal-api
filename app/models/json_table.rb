@@ -1,0 +1,2 @@
+class JsonTable < ApplicationRecord
+end

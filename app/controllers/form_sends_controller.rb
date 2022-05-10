@@ -64,6 +64,7 @@ class FormSendsController < ApplicationController
       filter_params = {
         title: params[:title],
         status: params[:status],
+        form_id: params[:form_id],
         start_date: params[:start_date],
         end_date: params[:end_date],
         range_start_date: params[:range_start_date],

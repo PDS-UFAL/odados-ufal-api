@@ -48,6 +48,7 @@ class FormSend < ApplicationRecord
 	scope :eligible, -> { where("start_date <= ?", Time.current) }
 	scope :range_start_date, ->(range_start_date) { where("start_date >= ?", range_start_date) }
 	scope :range_end_date, ->(range_end_date) { where("start_date <= ?", range_end_date) }
+	scope :form_id, ->(form_id) { where(form_id: form_id) }
 
 	before_create :set_status
 

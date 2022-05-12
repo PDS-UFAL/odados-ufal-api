@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :form_sends
   require 'sidekiq/web'
 
   scope 'api' do
@@ -14,7 +13,7 @@ Rails.application.routes.draw do
     resources :forms
     resources :form_sends
     resources :sectors
-    resources :responses, only: [:create] do
+      resources :responses, only: [:create] do
       get 'forms/:form_send_id', to: 'responses#answers', on: :collection
     end
 

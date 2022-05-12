@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_02_214912) do
+ActiveRecord::Schema.define(version: 2022_05_09_211945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,7 +21,6 @@ ActiveRecord::Schema.define(version: 2022_05_02_214912) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "form_send_id"
-    t.index ["form_send_id"], name: "index_form_sectors_on_form_send_id"
     t.index ["sector_id"], name: "index_form_sectors_on_sector_id"
   end
 
@@ -33,6 +32,7 @@ ActiveRecord::Schema.define(version: 2022_05_02_214912) do
     t.bigint "form_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "year", default: 2022, null: false
     t.index ["form_id"], name: "index_form_sends_on_form_id"
   end
 
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 2022_05_02_214912) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "description"
+    t.bigint "sector_ids", default: [], array: true
   end
 
   create_table "questions", force: :cascade do |t|
@@ -98,7 +99,6 @@ ActiveRecord::Schema.define(version: 2022_05_02_214912) do
     t.index ["sector_id"], name: "index_users_on_sector_id"
   end
 
-  add_foreign_key "form_sectors", "form_sends"
   add_foreign_key "form_sectors", "sectors"
   add_foreign_key "form_sends", "forms"
   add_foreign_key "questions", "sections"

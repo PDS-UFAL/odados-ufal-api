@@ -12,6 +12,7 @@ class Ability
       elsif user.employee?
         can :read, FormSend, sectors: { id: user.sector.id }
         can :read, Sector, id: user.sector.id
+        can :read, Form
       end
     end
   end

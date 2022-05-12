@@ -11,12 +11,10 @@
 #
 # Indexes
 #
-#  index_form_sectors_on_form_send_id  (form_send_id)
-#  index_form_sectors_on_sector_id     (sector_id)
+#  index_form_sectors_on_sector_id  (sector_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (form_send_id => form_sends.id)
 #  fk_rails_...  (sector_id => sectors.id)
 #
 class FormSector < ApplicationRecord

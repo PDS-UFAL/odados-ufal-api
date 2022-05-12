@@ -16,7 +16,11 @@ class FormsController < ApplicationController
 
   # GET /forms/1
   def show
-    render json: @form, serializer: Forms::FormSerializer
+    if @current_user.employee? and params[:is_table] == "1"
+      render json: @form, serializer: Tables::FormSerializer, sector: @current_user.sector.id
+    else 
+      render json: @form, serializer: Forms::FormSerializer
+    end
   end
 
   # POST /forms
@@ -52,7 +56,7 @@ class FormsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def form_params
-      params.require(:form).permit(:title, :description,
+      params.require(:form).permit(:title, :description, sector_ids: [],
         sections_attributes: [
           :name,
           questions_attributes: [

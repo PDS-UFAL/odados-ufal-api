@@ -95,6 +95,9 @@ class FormSendsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def form_send_params
-      params.require(:form_send).permit(:subtitle, :start_date, :end_date, :form_id, sector_ids: [])
+      perm_params = params.require(:form_send).permit(:subtitle, :year, :start_date, :end_date, :form_id)
+      @form = Form.find(params[:form_send][:form_id])
+      perm_params[:sector_ids] = @form.sector_ids
+      perm_params
     end
 end

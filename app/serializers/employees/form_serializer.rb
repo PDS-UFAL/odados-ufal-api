@@ -1,5 +1,5 @@
 class Employees::FormSerializer < ActiveModel::Serializer
-	attributes :id, :subtitle, :sectors, :start_date, :end_date, :status
+	attributes :id, :subtitle, :sectors, :year, :start_date, :end_date, :status
 	has_one :form
 
   def sections

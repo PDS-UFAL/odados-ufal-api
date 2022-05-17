@@ -14,14 +14,14 @@ class FormSendsController < ApplicationController
     
     @form_sends = @form_sends.page(params[:page]).per(params[:page_size] || 15) if params[:page].present?
 
-    render json: @form_sends, each_serializer: Lists::FormSerializer, meta: meta_info(@form_sends, status_count)
+    render json: @form_sends, each_serializer: Lists::FormSendSerializer, meta: meta_info(@form_sends, status_count)
 
   end
 
   # GET /form_sends/1
   def show
     if @current_user.employee?
-      render json: @form_send, serializer: Employees::FormSerializer, user: @current_user
+      render json: @form_send, serializer: Employees::FormSendSerializer, user: @current_user
     else
       render json: @form_send
     end

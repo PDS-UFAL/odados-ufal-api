@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   scope 'api' do
     post 'login', to: 'authentications#login'
+    get '/forms/:id/form_sends', to: 'forms#form_sends'
+    get '/forms/:id/table', to: 'forms#table'
     
     resources :users do
       get 'me', to: 'users#me', on: :collection

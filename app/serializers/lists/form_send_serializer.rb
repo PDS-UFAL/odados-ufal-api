@@ -1,4 +1,4 @@
-class Lists::FormSerializer < ActiveModel::Serializer
+class Lists::FormSendSerializer < ActiveModel::Serializer
 	attributes :id, :subtitle, :sectors, :year, :start_date, :end_date, :status, :form
 
 	def form

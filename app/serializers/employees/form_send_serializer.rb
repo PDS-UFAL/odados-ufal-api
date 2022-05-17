@@ -1,4 +1,4 @@
-class Employees::FormSerializer < ActiveModel::Serializer
+class Employees::FormSendSerializer < ActiveModel::Serializer
 	attributes :id, :subtitle, :sectors, :year, :start_date, :end_date, :status
 	has_one :form
 

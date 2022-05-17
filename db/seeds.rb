@@ -6,35 +6,35 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-gr = Sector.create({ name: "GR - Gabinete do Reitor", email: "gr_teste@teste.com", responsible: "Sem Responsável" })
+gr = Sector.create({ name: "Gabinete do Reitor", abbreviation: "GR", email: "gr_teste@teste.com", responsible: "Sem Responsável" })
 
-prograd = Sector.create({ name: "PROGRAD - Pró-reitoria de Graudação", email: "amauri.barros@im.ufal.br", responsible: "Amauri da Silva Barros" })
+prograd = Sector.create({ name: "Pró-reitoria de Graduação", abbreviation: "PROGRAD", email: "amauri.barros@im.ufal.br", responsible: "Amauri da Silva Barros" })
 
-propep = Sector.create({ name: "PROPEP - Pró-reitoria Pesquisa e Pós-graduação", email: "iraildes.assuncao@propep.ufal.br", responsible: "Iraildes Pereira Assunção" })
+propep = Sector.create({ name: "Pró-reitoria Pesquisa e Pós-graduação", abbreviation: "PROPEP", email: "iraildes.assuncao@propep.ufal.br", responsible: "Iraildes Pereira Assunção" })
 
-proex = Sector.create({ name: "PROEX - Pró-reitoria de Extensão", email: "proex_teste@teste.com", responsible: "Clayton Antônio Santos da Silva" })
+proex = Sector.create({ name: "Pró-reitoria de Extensão", abbreviation: "PROEX", email: "proex_teste@teste.com", responsible: "Clayton Antônio Santos da Silva" })
 
-proest = Sector.create({ name: "PROEST - Pró-reitoria Estudantil", email: "alexandre@proest.ufal.br", responsible: "Alexandre Lima Marques da Silva" })
+proest = Sector.create({ name: "Pró-reitoria Estudantil", abbreviation: "PROEST", email: "alexandre@proest.ufal.br", responsible: "Alexandre Lima Marques da Silva" })
 
-progep = Sector.create({ name: "PROGEP - Pró-reitoria de Gestão de pessoas e do Trabalho", email: "wellington.pereira@progep.ufal.br", responsible: "Wellington da Silva Pereira" })
+progep = Sector.create({ name: "Pró-reitoria de Gestão de pessoas e do Trabalho", abbreviation: "PROGEP", email: "wellington.pereira@progep.ufal.br", responsible: "Wellington da Silva Pereira" })
 
-proginst = Sector.create({ name: "PROGINST - Pró-reitoria de Gestão Institucional", email: "acf@reitoria.ufal.br", responsible: "Arnóbio Cavalcante Filho" })
+proginst = Sector.create({ name: "Pró-reitoria de Gestão Institucional", abbreviation: "PROGINST", email: "acf@reitoria.ufal.br", responsible: "Arnóbio Cavalcante Filho" })
 
-sinfra = Sector.create({ name: "SINFRA - Superintendência de Infraestrutura", email: "dilson.ferreira@fau.ufal.br", responsible: "Dilson Batista Ferreira" })
+sinfra = Sector.create({ name: "Superintendência de Infraestrutura", abbreviation: "SINFRA", email: "dilson.ferreira@fau.ufal.br", responsible: "Dilson Batista Ferreira" })
 
-ag = Sector.create({ name: "AG - Auditoria Geral", email: "Thyago.sampaio@ag.ufal.br", responsible: "Thyago Bezerra Sampaio" })
+ag = Sector.create({ name: "Auditoria Geral", abbreviation: "AG", email: "Thyago.sampaio@ag.ufal.br", responsible: "Thyago Bezerra Sampaio" })
 
-corregedoria_seccional = Sector.create({ name: "Corregedoria Seccional", email: "daniel.coordeiro@prograd.ufal.br", responsible: "Daniel Luiz de Melo Gomes Cordeiro" })
+corregedoria_seccional = Sector.create({ name: "Corregedoria Seccional", abbreviation: "CS", email: "daniel.coordeiro@prograd.ufal.br", responsible: "Daniel Luiz de Melo Gomes Cordeiro" })
 
-ouvidoria = Sector.create({ name: "Ouvidoria", email: "ouvidoria@ufal.br", responsible: "Melchior Carlos do Nascimento" })
+ouvidoria = Sector.create({ name: "Ouvidoria", abbreviation: "OUVID", email: "ouvidoria@ufal.br", responsible: "Melchior Carlos do Nascimento" })
 
-nti = Sector.create({ name: "NTI - Núcleo de Tecnologia da Informação", email: "reinaldo@nti.ufal.br", responsible: "Reinaldo Cabral Silva Filho" })
+nti = Sector.create({ name: "Núcleo de Tecnologia da Informação", abbreviation: "NTI", email: "reinaldo@nti.ufal.br", responsible: "Reinaldo Cabral Silva Filho" })
 
-sibi = Sector.create({ name: "SIBI - Sistema de Bibliotecas", email: "direção@sibi.ufal.br", responsible: "Cristiane Estevão" })
+sibi = Sector.create({ name: "Sistema de Bibliotecas", abbreviation: "SIBI", email: "direção@sibi.ufal.br", responsible: "Cristiane Estevão" })
 
-ascom = Sector.create({ name: "ASCOM - Assessoria de Comunicação", email: "simoneide.araujo@ascom.ufal.br", responsible: "Simoneide Batista Araújo da Silva" })
+ascom = Sector.create({ name: "Assessoria de Comunicação", abbreviation: "ASCOM", email: "simoneide.araujo@ascom.ufal.br", responsible: "Simoneide Batista Araújo da Silva" })
 
-hu = Sector.create({ name: "HU - Hospital Universitário", email: "hu_teste@teste.com", responsible: "Sem Responsável" })
+hu = Sector.create({ name: "Hospital Universitário", abbreviation: "HU", email: "hu_teste@teste.com", responsible: "Sem Responsável" })
 
 User.create!([
   {

@@ -22,7 +22,7 @@
 #  fk_rails_...  (sector_id => sectors.id)
 #
 class UserSerializer < ActiveModel::Serializer
-  attributes :id, :email, :role
+  attributes :id, :email, :role, :sector_id
   has_one :sector, unless: :admin?
 
   def admin?

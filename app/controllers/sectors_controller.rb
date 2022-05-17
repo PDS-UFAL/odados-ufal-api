@@ -45,6 +45,6 @@ class SectorsController < ApplicationController
   end
 
   def sector_params
-    params.require(:sector).permit(:name, :email, :responsible)
+    params.require(:sector).permit(:name, :abbreviation, :email, :responsible)
   end
 end

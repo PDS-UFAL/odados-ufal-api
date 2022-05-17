@@ -3,27 +3,20 @@ class FormsController < ApplicationController
 
   # GET /forms
   def index
-    @forms = Form.filter(filter_params)
-
-    status_count = count_status
+    @forms = Form.all
 
     params[:sort_by] = "title" unless Form.column_names.include? params[:sort_by]
     params[:sort_direction] = "asc" unless sort_directions.include? params[:sort_direction]
-    
+
     @forms = @forms.order("#{params[:sort_by]}": :"#{params[:sort_direction]}")
-    
     @forms = @forms.page(params[:page]).per(params[:page_size] || 15) if params[:page].present?
 
-    render json: @forms, each_serializer: Lists::FormSerializer, meta: meta_info(@forms, status_count)
+    render json: @forms, each_serializer: Forms::FormSerializer
   end
 
   # GET /forms/1
   def show
-    if @current_user.employee?
-      render json: @form, serializer: Employees::FormSerializer, user: @current_user
-    else
-      render json: @form
-    end
+    render json: @form, serializer: Forms::FormSerializer
   end
 
   # POST /forms
@@ -57,42 +50,9 @@ class FormsController < ApplicationController
       @form = Form.find(params[:id])
     end
 
-    def filter_params
-      filter_params = {
-        title: params[:title],
-        status: params[:status],
-        start_date: params[:start_date],
-        end_date: params[:end_date],
-        range_start_date: params[:range_start_date],
-        range_end_date: params[:range_end_date]
-      }
-
-      filter_params.merge!(forms_by_sector: @current_user.sector.id) if @current_user.employee?
-
-      filter_params
-    end
-
-    def count_status
-      status_count = @forms.group(:status).count
-
-      status_count = {
-        open: status_count['open'] || 0,
-        closed: status_count['closed'] || 0,
-        not_started: status_count['not_started'] || 0
-      }
-
-      status_count
-    end
-
-    def meta_info collection, meta_info
-      meta_info.merge!(total_pages: collection.total_pages, total_count: collection.total_count) if params[:page].present?
-
-      meta_info
-    end
-
     # Only allow a list of trusted parameters through.
     def form_params
-      params.require(:form).permit(:title, :start_date, :end_date, sector_ids: [],
+      params.require(:form).permit(:title, :description,
         sections_attributes: [
           :name,
           questions_attributes: [

@@ -20,6 +20,6 @@ class SectionSerializer < ActiveModel::Serializer
   attributes :id, :name, :questions
 
   def questions
-    object.questions&.map { |question| QuestionSerializer.new(question) }
+    object.questions&.map { |question| QuestionSerializer.new(question, form_send_id: @instance_options[:form_send_id]) }
   end
 end

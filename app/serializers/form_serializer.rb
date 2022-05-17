@@ -2,23 +2,17 @@
 #
 # Table name: forms
 #
-#  id         :bigint           not null, primary key
-#  end_date   :datetime         not null
-#  start_date :datetime         not null
-#  status     :integer          default("open"), not null
-#  title      :string           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id          :bigint           not null, primary key
+#  description :string
+#  title       :string           not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
 #
 class FormSerializer < ActiveModel::Serializer
-  attributes :id, :title, :start_date, :end_date, :status, :created_at, :updated_at, :sectors, :sections
-
-  def sectors
-    object.sectors&.map { |sector| SectorStatusSerializer.new(sector, form: object) }
-  end
+  attributes :id, :title, :description, :created_at, :updated_at, :sections
 
   def sections
-    object.sections&.map { |section| SectionSerializer.new(section) }
+    object.sections&.map { |section| SectionSerializer.new(section, form_send_id: @instance_options[:form_send_id]) }
   end
 
   class SectorStatusSerializer < ActiveModel::Serializer

@@ -10,28 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_25_181236) do
+ActiveRecord::Schema.define(version: 2022_05_02_214912) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "form_sectors", force: :cascade do |t|
-    t.bigint "form_id", null: false
     t.bigint "sector_id", null: false
     t.integer "status", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["form_id"], name: "index_form_sectors_on_form_id"
+    t.bigint "form_send_id"
+    t.index ["form_send_id"], name: "index_form_sectors_on_form_send_id"
     t.index ["sector_id"], name: "index_form_sectors_on_sector_id"
+  end
+
+  create_table "form_sends", force: :cascade do |t|
+    t.datetime "end_date", null: false
+    t.datetime "start_date", null: false
+    t.integer "status", default: 1, null: false
+    t.string "subtitle"
+    t.bigint "form_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["form_id"], name: "index_form_sends_on_form_id"
   end
 
   create_table "forms", force: :cascade do |t|
     t.string "title", null: false
-    t.integer "status", default: 1, null: false
-    t.datetime "start_date", null: false
-    t.datetime "end_date", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "description"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -54,6 +63,7 @@ ActiveRecord::Schema.define(version: 2021_12_25_181236) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "fsend"
     t.index ["question_id"], name: "index_responses_on_question_id"
     t.index ["user_id"], name: "index_responses_on_user_id"
   end
@@ -72,6 +82,7 @@ ActiveRecord::Schema.define(version: 2021_12_25_181236) do
     t.string "responsible"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "abbreviation"
   end
 
   create_table "users", force: :cascade do |t|
@@ -87,8 +98,9 @@ ActiveRecord::Schema.define(version: 2021_12_25_181236) do
     t.index ["sector_id"], name: "index_users_on_sector_id"
   end
 
-  add_foreign_key "form_sectors", "forms"
+  add_foreign_key "form_sectors", "form_sends"
   add_foreign_key "form_sectors", "sectors"
+  add_foreign_key "form_sends", "forms"
   add_foreign_key "questions", "sections"
   add_foreign_key "responses", "questions"
   add_foreign_key "responses", "users"

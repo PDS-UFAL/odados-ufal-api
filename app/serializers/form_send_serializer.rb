@@ -7,6 +7,7 @@
 #  start_date :datetime         not null
 #  status     :integer          default("open"), not null
 #  subtitle   :string
+#  year       :integer          default(2022), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  form_id    :bigint           not null
@@ -20,6 +21,6 @@
 #  fk_rails_...  (form_id => forms.id)
 #
 class FormSendSerializer < ActiveModel::Serializer
-  attributes :id, :subtitle, :sectors, :start_date, :end_date, :status
+  attributes :id, :subtitle, :sectors, :year, :start_date, :end_date, :status
   has_one :form
 end

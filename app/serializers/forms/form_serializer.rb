@@ -1,6 +1,10 @@
 class Forms::FormSerializer < ActiveModel::Serializer
-    attributes :id, :title, :description, :created_at, :updated_at, :sections
-	  
+    attributes :id, :title, :sectors, :description, :created_at, :updated_at, :sections
+	
+    def sectors
+        object.sector_ids&.map { |sector_id| SectorSerializer.new(Sector.find(sector_id)) }
+    end
+
     def sections
         object.sections&.map { |section| Forms::SectionSerializer.new(section) }
     end

@@ -1,5 +1,5 @@
 class FormsController < ApplicationController
-  before_action :set_form, only: [:show, :update, :destroy]
+  before_action :set_form, only: [:show, :update, :destroy, :table]
 
   # GET /forms
   def index
@@ -17,6 +17,22 @@ class FormsController < ApplicationController
   # GET /forms/1
   def show
     render json: @form, serializer: Forms::FormSerializer
+  end
+
+   # GET /forms/1/form_sends
+  def form_sends
+    render json: @form, serializer: FormSends::FormSerializer
+  end
+
+  # GET /forms/1/table
+  def table
+    if @current_user.employee?
+      render json: @form, serializer: Tables::FormSerializer, sector: @current_user.sector.id
+    elsif params[:sector_id].present?
+      render json: @form, serializer: Tables::FormSerializer, sector: params[:sector_id]
+    else 
+      render json: @form.errors, status: :unprocessable_entity
+    end
   end
 
   # POST /forms
@@ -52,7 +68,7 @@ class FormsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def form_params
-      params.require(:form).permit(:title, :description,
+      params.require(:form).permit(:title, :description, sector_ids: [],
         sections_attributes: [
           :name,
           questions_attributes: [

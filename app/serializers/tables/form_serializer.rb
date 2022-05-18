@@ -31,30 +31,39 @@ class Tables::FormSerializer < ActiveModel::Serializer
             def responses
                 @response_years = []
                 @responses = []
+                @sectors = []
 
                 object.responses.each do |response|
-                    if response.user.sector.id == @instance_options[:sector]
+                    if @instance_options[:sector].nil? or response.user.sector.id == @instance_options[:sector]
                         @form_send = FormSend.find(response.fsend)
+                        @sectors.append(response.user.sector.id)
                         @response_years.append(@form_send.year)
-                        @responses.append({ "body": response, "year": @form_send.year })
+                        @responses.append({ "body": response, "year": @form_send.year, "sector_id": response.user.sector.id})
                     end
                 end
                 
                 @response_years = @response_years.uniq
                 @response_years = @response_years.sort
+
+                @sectors =  @sectors.uniq
+                @sectors =  @sectors.sort
+
                 @responses = @responses.sort { |a, b| a[:body][:created_at] <=> b[:body][:created_at] }
                 
-                @size = @response_years.length()
-                @filtred_responses = Array.new(@size)
-                
+                @x_size = @sectors.length()
+                @y_size = @response_years.length()
+                @filtred_responses = Array.new(@x_size) { Array.new(@y_size) }
+
                 @responses.each do |response|
-                    @index = @response_years.bsearch_index { |val| response[:year] <=> val }
-                    @filtred_responses[@index] = {
+                    @x_index = @sectors.bsearch_index { |val| response[:sector_id] <=> val }
+                    @y_index = @response_years.bsearch_index { |val| response[:year] <=> val }
+
+                    @filtred_responses[@x_index][@y_index] = {
                         "id": response[:body][:id],
                         "answer": response[:body][:answer],
                         "form_send_id": response[:body][:fsend],
-                        "sector_id": User.find(response[:body][:user_id]).sector_id,
-                        "year": response[:year]
+                        "year": response[:year],
+                        "sector": SectorSerializer.new(Sector.find(response[:sector_id]))
                     }
                 end
 

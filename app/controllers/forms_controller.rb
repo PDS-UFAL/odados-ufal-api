@@ -31,7 +31,7 @@ class FormsController < ApplicationController
     elsif params[:sector_id].present?
       render json: @form, serializer: Tables::FormSerializer, sector: params[:sector_id]
     else 
-      render json: @form.errors, status: :unprocessable_entity
+      render json: @form, serializer: Tables::FormSerializer
     end
   end
 

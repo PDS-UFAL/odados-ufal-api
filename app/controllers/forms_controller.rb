@@ -14,12 +14,56 @@ class FormsController < ApplicationController
     render json: @forms, each_serializer: Forms::FormSerializer
   end
 
+  # POST forms/response_history
+  def response_history
+    if not @current_user.admin?
+      return render json: { error: "You are not authorized to access this page." }, status: :unauthorized
+    end
+
+    @form = Form.find(params[:form_id])
+
+    if not @form.sector_ids.include?(params[:sector_id])
+      return render json: { error: "Sector not included in this form." }, status: :unprocessable_entity
+    end
+
+    fsend_params = { 
+      subtitle: params[:year].to_s, 
+      start_date: Time.current, 
+      end_date: Time.current + 1.day, 
+      year: params[:year], 
+      form_id: params[:form_id], 
+      sector_ids: [ params[:sector_id] ]
+    }
+
+    fsend = FormSend.create!(fsend_params)
+
+    @sector_user = User.find_by sector_id: params[:sector_id]
+    @form_sector = fsend.form_sectors.find_by(sector_id: params[:sector_id])
+
+    responses = params[:responses]
+    responses.map { |response| response[:user_id] = @sector_user.id }
+    responses.map { |response| response[:fsend] = fsend.id }
+   
+    responses_params = []
+
+    responses.each do |response|
+      responses_params.append(response.to_enum.to_h)
+    end
+
+    Response.transaction do
+      @responses = Response.create!(responses_params)
+      @form_sector.respond!
+    end
+
+    render json: @responses
+  end
+
   # GET /forms/1
   def show
     render json: @form, serializer: Forms::FormSerializer
   end
 
-   # GET /forms/1/form_sends
+  # GET /forms/1/form_sends
   def form_sends
     render json: @form, serializer: FormSends::FormSerializer
   end

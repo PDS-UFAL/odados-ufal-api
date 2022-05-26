@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     resources :forms
     resources :form_sends
     resources :sectors
-    resources :responses, only: [:create] do
+    resources :responses, only: [:create, :index, :update] do
       get 'forms/:form_send_id', to: 'responses#answers', on: :collection
     end
 

@@ -37,11 +37,11 @@ class FormsController < ApplicationController
 
     fsend = FormSend.create!(fsend_params)
 
-    @sector_user = User.find_by sector_id: params[:sector_id]
     @form_sector = fsend.form_sectors.find_by(sector_id: params[:sector_id])
 
     responses = params[:responses]
-    responses.map { |response| response[:user_id] = @sector_user.id }
+    responses.map { |response| response[:user_id] = @current_user.id }
+    responses.map { |response| response[:sector_id] = params[:sector_id] }
     responses.map { |response| response[:fsend] = fsend.id }
    
     responses_params = []

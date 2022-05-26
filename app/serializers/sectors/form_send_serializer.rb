@@ -28,7 +28,7 @@ class Sectors::FormSendSerializer < ActiveModel::Serializer
 				  
 				  def responses
 					@responses = object.responses.where(fsend: $fsend)
-					@responses&.select { |response| response.user.sector_id == @instance_options[:sector].id }.map { |response| Sectors::ResponseSerializer.new(response) }
+					@responses&.select { |response| response.sector_id == @instance_options[:sector].id }.map { |response| Sectors::ResponseSerializer.new(response) }
 				  end
 	  
 				  class Sectors::ResponseSerializer < ActiveModel::Serializer

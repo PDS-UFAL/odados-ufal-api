@@ -11,6 +11,7 @@
 #
 class Form < ApplicationRecord
 	has_many :sections, dependent: :destroy
+	has_many :form_sends, dependent: :destroy
 
 	accepts_nested_attributes_for :sections, allow_destroy: true
 

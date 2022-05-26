@@ -31,14 +31,14 @@ class Tables::FormSerializer < ActiveModel::Serializer
             def responses
                 @response_years = []
                 @responses = []
-                @sectors = []
+                @sectors = [] 
 
                 object.responses.each do |response|
-                    if @instance_options[:sector].nil? or response.user.sector.id == @instance_options[:sector]
+                    if @instance_options[:sector].nil? or response.sector_id == @instance_options[:sector]
                         @form_send = FormSend.find(response.fsend)
-                        @sectors.append(response.user.sector.id)
+                        @sectors.append(response.sector_id)
                         @response_years.append(@form_send.year)
-                        @responses.append({ "body": response, "year": @form_send.year, "sector_id": response.user.sector.id})
+                        @responses.append({ "body": response, "year": @form_send.year, "sector_id": response.sector_id})
                     end
                 end
                 

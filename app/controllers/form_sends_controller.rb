@@ -97,8 +97,15 @@ class FormSendsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def form_send_params
       perm_params = params.require(:form_send).permit(:subtitle, :year, :start_date, :end_date, :form_id)
+
       @form = Form.find(params[:form_send][:form_id])
       perm_params[:sector_ids] = @form.sector_ids
+      perm_params[:start_date] = perm_params[:start_date].to_datetime
+      perm_params[:end_date] = perm_params[:end_date].to_datetime
+      perm_params[:start_date] = perm_params[:start_date].beginning_of_day + 3.hours
+      perm_params[:end_date] = perm_params[:end_date].end_of_day + 3.hours
+
+      logger.debug "#{Time.current}"
       perm_params
     end
 end

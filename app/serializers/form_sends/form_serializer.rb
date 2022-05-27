@@ -15,7 +15,7 @@ class FormSends::FormSerializer < ActiveModel::Serializer
   end
 
   class FormSends::FormSendSerializer < ActiveModel::Serializer
-      attributes :id, :subtitle, :year, :status
+      attributes :id, :subtitle, :year, :status, :start_date, :end_date
   end
   
   class FormSends::SectionSerializer < ActiveModel::Serializer

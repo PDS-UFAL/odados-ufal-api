@@ -33,7 +33,7 @@ class FormSends::FormSerializer < ActiveModel::Serializer
           end
 
           class FormSends::ResponseSerializer < ActiveModel::Serializer
-              attributes :id, :answer, :fsend
+              attributes :id, :answer, :fsend, :sector_id
           end
       end
   end

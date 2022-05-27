@@ -5,5 +5,5 @@ form_init:
   cron: "0 0 * * *"
   class: "Schedules::FormInitWorker"
 form_ending:
-  cron: "40 18 * * *"
+  cron: "30 0 * * *"
   class: "Schedules::NotifyUsersFormExpirationWorker"

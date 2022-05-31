@@ -4,6 +4,7 @@
 #
 #  id         :bigint           not null, primary key
 #  end_date   :datetime         not null
+#  is_history :boolean
 #  start_date :datetime         not null
 #  status     :integer          default("open"), not null
 #  subtitle   :string

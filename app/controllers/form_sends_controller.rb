@@ -100,12 +100,12 @@ class FormSendsController < ApplicationController
 
       @form = Form.find(params[:form_send][:form_id])
       perm_params[:sector_ids] = @form.sector_ids
+      perm_params[:is_history] = false
       perm_params[:start_date] = perm_params[:start_date].to_datetime
       perm_params[:end_date] = perm_params[:end_date].to_datetime
       perm_params[:start_date] = perm_params[:start_date].beginning_of_day + 3.hours
       perm_params[:end_date] = perm_params[:end_date].end_of_day + 3.hours
 
-      logger.debug "#{Time.current}"
       perm_params
     end
 end

@@ -45,11 +45,15 @@ class User < ApplicationRecord
   scope :role, ->(role) { where(role: role) }
   
   def send_form_notification form
-    UserMailer.with(user: self, form: form).form_creation.deliver_now
+    if not form.is_history
+      UserMailer.with(user: self, form: form).form_creation.deliver_now
+    end
   end
 
   def send_response_notification form, sector
-    UserMailer.with(user: self, form: form, sector: sector).form_response.deliver_now
+    if not form.is_history
+      UserMailer.with(user: self, form: form, sector: sector).form_response.deliver_now
+    end
   end
 
   def send_form_reminder form

@@ -32,7 +32,8 @@ class FormsController < ApplicationController
       end_date: Time.current + 1.day, 
       year: params[:year], 
       form_id: params[:form_id], 
-      sector_ids: [ params[:sector_id] ]
+      sector_ids: [ params[:sector_id] ],
+      is_history: true
     }
 
     fsend = FormSend.create!(fsend_params)

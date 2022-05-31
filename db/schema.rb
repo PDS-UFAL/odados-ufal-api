@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_25_225933) do
+ActiveRecord::Schema.define(version: 2022_05_31_133021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 2022_05_25_225933) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "year", default: 2022, null: false
+    t.boolean "is_history"
     t.index ["form_id"], name: "index_form_sends_on_form_id"
   end
 

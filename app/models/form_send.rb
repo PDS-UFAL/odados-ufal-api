@@ -4,9 +4,11 @@
 #
 #  id         :bigint           not null, primary key
 #  end_date   :datetime         not null
+#  is_history :boolean
 #  start_date :datetime         not null
 #  status     :integer          default("open"), not null
 #  subtitle   :string
+#  year       :integer          default(2022), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  form_id    :bigint           not null
@@ -25,8 +27,7 @@ class FormSend < ApplicationRecord
   belongs_to :form
 	has_many :form_sectors, dependent: :destroy
 	has_many :sectors, through: :form_sectors
-	# has_many :responses
-
+	
   enum status: {
     closed: 0,
     open: 1,

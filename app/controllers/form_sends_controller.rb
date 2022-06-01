@@ -4,6 +4,7 @@ class FormSendsController < ApplicationController
   # GET /form_sends
   def index
     @form_sends = FormSend.filter(filter_params)
+    @form_sends = @form_sends.where(is_history: true) if params[:no_history].present?
 
     status_count = count_status
 
@@ -11,17 +12,16 @@ class FormSendsController < ApplicationController
     params[:sort_direction] = "asc" unless sort_directions.include? params[:sort_direction]
     
     @form_sends = @form_sends.order("#{params[:sort_by]}": :"#{params[:sort_direction]}")
-    
     @form_sends = @form_sends.page(params[:page]).per(params[:page_size] || 15) if params[:page].present?
 
-    render json: @form_sends, each_serializer: Lists::FormSerializer, meta: meta_info(@form_sends, status_count)
+    render json: @form_sends, each_serializer: Lists::FormSendSerializer, meta: meta_info(@form_sends, status_count)
 
   end
 
   # GET /form_sends/1
   def show
     if @current_user.employee?
-      render json: @form_send, serializer: Employees::FormSerializer, user: @current_user
+      render json: @form_send, serializer: Employees::FormSendSerializer, user: @current_user
     else
       render json: @form_send
     end
@@ -96,6 +96,16 @@ class FormSendsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def form_send_params
-      params.require(:form_send).permit(:subtitle, :start_date, :end_date, :form_id, sector_ids: [])
+      perm_params = params.require(:form_send).permit(:subtitle, :year, :start_date, :end_date, :form_id)
+
+      @form = Form.find(params[:form_send][:form_id])
+      perm_params[:sector_ids] = @form.sector_ids
+      perm_params[:is_history] = false
+      perm_params[:start_date] = perm_params[:start_date].to_datetime
+      perm_params[:end_date] = perm_params[:end_date].to_datetime
+      perm_params[:start_date] = perm_params[:start_date].beginning_of_day + 3.hours
+      perm_params[:end_date] = perm_params[:end_date].end_of_day + 3.hours
+
+      perm_params
     end
 end

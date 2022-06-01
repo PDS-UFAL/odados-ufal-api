@@ -14,7 +14,7 @@ class UserMailer < ApplicationMailer
   def form_reminder
     @user = params[:user]
     @form = params[:form]
-    mail(to: params[:user].email, subject: "O formulário: #{@form.subtitle} expira amanhã")
+    mail(to: params[:user].email, subject: "O formulário: #{@form.subtitle} expira hoje")
   end
 
   def reset_password    

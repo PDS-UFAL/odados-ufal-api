@@ -4,6 +4,7 @@ class FormSendsController < ApplicationController
   # GET /form_sends
   def index
     @form_sends = FormSend.filter(filter_params)
+    @form_sends = @form_sends.where(is_history: true) if params[:no_history].present?
 
     status_count = count_status
 
@@ -11,7 +12,6 @@ class FormSendsController < ApplicationController
     params[:sort_direction] = "asc" unless sort_directions.include? params[:sort_direction]
     
     @form_sends = @form_sends.order("#{params[:sort_by]}": :"#{params[:sort_direction]}")
-    
     @form_sends = @form_sends.page(params[:page]).per(params[:page_size] || 15) if params[:page].present?
 
     render json: @form_sends, each_serializer: Lists::FormSendSerializer, meta: meta_info(@form_sends, status_count)

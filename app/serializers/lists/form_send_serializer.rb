@@ -1,5 +1,5 @@
 class Lists::FormSendSerializer < ActiveModel::Serializer
-	attributes :id, :subtitle, :sectors, :year, :start_date, :end_date, :status, :form
+	attributes :id, :subtitle, :is_history, :sectors, :year, :start_date, :end_date, :status, :form
 
 	def form
 		@form_send_id = object.id

@@ -82,7 +82,13 @@ class FormsController < ApplicationController
 
   # POST /forms
   def create
-    @form = Form.new(form_params)
+    @params = form_params
+
+    if @params[:sector_ids].length == 0
+      return render json: { error: "Need at least one sector to create a form." }, status: :unprocessable_entity
+    end
+
+    @form = Form.new(@params)
 
     if @form.save
       render json: @form, status: :created, location: @form

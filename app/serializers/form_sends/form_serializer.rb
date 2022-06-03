@@ -36,11 +36,7 @@ class FormSends::FormSerializer < ActiveModel::Serializer
           end
 
           class FormSends::ResponseSerializer < ActiveModel::Serializer
-              attributes :id, :answer, :form_send, :sector_id
-
-              def form_send 
-                FormSends::FormSendSerializer.new(FormSend.find(object.fsend))
-              end
+              attributes :id, :answer, :fsend, :sector_id
           end
       end
   end

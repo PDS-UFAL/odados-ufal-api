@@ -18,7 +18,7 @@ class UserMailer < ApplicationMailer
   end
 
   def reset_password    
-    @url = "#{ENV['FRONTEND_URL']}/redefinir-senha?token=#{params[:user].reset_password_token}"
+    @url = "#{ENV['FRONT_BASE_URL']}/redefinir-senha?token=#{params[:user].reset_password_token}"
     mail(to: params[:user].email, subject: 'Pedido de redefinição de senha')
   end
 end

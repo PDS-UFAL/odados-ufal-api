@@ -7,6 +7,7 @@ class FormSends::FormSerializer < ActiveModel::Serializer
 
   def form_sends
       @form_sends = FormSend.where(form_id: object.id)
+      @form_sends = @form_sends.sort { |a, b| (a.year <=> b.year) == 0 ? (a.start_date <=> b.start_date) : (a.year <=> b.year) }
       @form_sends.map { |form_send| FormSends::FormSendSerializer.new(form_send) }
   end
 
@@ -29,7 +30,9 @@ class FormSends::FormSerializer < ActiveModel::Serializer
           attributes :id, :title, :type, :required, :max_char, :max_value, :min_value, :options, :responses
 
           def responses
-              object.responses.map { |response| FormSends::ResponseSerializer.new(response) }
+              @responses = object.responses
+              @responses = @responses.sort { |a, b| (FormSend.find(a.fsend).year <=> FormSend.find(b.fsend).year) == 0 ? (FormSend.find(a.fsend).start_date <=> FormSend.find(b.fsend).start_date) : (FormSend.find(a.fsend).year <=> FormSend.find(b.fsend).year) }
+              @responses.map { |response| FormSends::ResponseSerializer.new(response) }
           end
 
           class FormSends::ResponseSerializer < ActiveModel::Serializer

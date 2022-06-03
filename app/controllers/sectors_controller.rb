@@ -4,13 +4,12 @@ class SectorsController < ApplicationController
   # GET /sectors
   def index
     @sectors = Sector.all
-
-    render json: @sectors
+    render json: @sectors, each_serializer: SectorSerializer, users_flag: params[:show_users].present?
   end
 
   # GET /sectors/1
   def show
-    render json: @sector
+    render json: @sector, serializer: SectorSerializer, users_flag: params[:show_users].present?
   end
 
   # POST /sectors

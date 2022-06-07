@@ -3,6 +3,7 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
+#  active                 :boolean          default(TRUE), not null
 #  email                  :string           not null
 #  password_digest        :string           not null
 #  reset_password_sent_at :datetime
@@ -45,19 +46,21 @@ class User < ApplicationRecord
   scope :role, ->(role) { where(role: role) }
   
   def send_form_notification form
-    if not form.is_history
+    if not form.is_history and self.active?
       UserMailer.with(user: self, form: form).form_creation.deliver_now
     end
   end
 
   def send_response_notification form, sector
-    if not form.is_history
+    if not form.is_history and self.active?
       UserMailer.with(user: self, form: form, sector: sector).form_response.deliver_now
     end
   end
 
   def send_form_reminder form
-    UserMailer.with(user: self, form: form).form_reminder.deliver_now
+    if self.active?
+      UserMailer.with(user: self, form: form).form_reminder.deliver_now
+    end
   end
 
   def generate_password_token!

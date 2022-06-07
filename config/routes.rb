@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     post 'login', to: 'authentications#login'
     get '/forms/:id/form_sends', to: 'forms#form_sends'
     get '/forms/:id/table', to: 'forms#table'
+    put '/users/:id/turn_inactive', to: 'users#turn_inactive'
+    put '/users/:id/turn_active', to: 'users#turn_active'
     post '/forms/response_history', to: 'forms#response_history'
     
     resources :users do

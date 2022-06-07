@@ -8,6 +8,10 @@ class AuthenticationsController < ApplicationController
   def login
     user = User.find_by(email: user_params[:email])
 
+    if not user&.active?
+      return render json: { error: 'Usuário bloqueado no sistema, para reativá-lo entre em contato com o administrador' }, status: :unauthorized
+    end
+
     if user&.authenticate(user_params[:password])
       auth_token = JsonWebToken.encode( { id: user.id, email: user.email } )
       

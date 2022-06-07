@@ -4,13 +4,31 @@ class UsersController < ApplicationController
   skip_before_action :authenticate_user, only: ALLOWED_ACTIONS_WITHOUT_USER
   skip_load_and_authorize_resource only: ALLOWED_ACTIONS_WITHOUT_USER
 
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user, only: [:show, :update, :destroy, :turn_inactive]
 
   # GET /users
   def index
     @users = User.all
 
     render json: @users
+  end
+
+  # PUT /users/1/turn_inactive 
+  def turn_inactive  
+    if @user.update({ active: false })
+      render json: @user
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
+  # PUT /users/1/turn_active
+  def turn_active 
+    if @user.update({ active: true })
+      render json: @user
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
   end
 
   # GET /users/1

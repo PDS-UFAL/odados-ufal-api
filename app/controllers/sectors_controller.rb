@@ -4,6 +4,7 @@ class SectorsController < ApplicationController
   # GET /sectors
   def index
     @sectors = Sector.all
+    @sectors = @sectors.order("name")
     render json: @sectors, each_serializer: SectorSerializer, users_flag: params[:show_users].present?
   end
 

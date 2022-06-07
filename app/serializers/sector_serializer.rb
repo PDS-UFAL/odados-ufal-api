@@ -19,7 +19,7 @@ class SectorSerializer < ActiveModel::Serializer
   end
 
   def users
-    @users = User.where(sector_id: object.id)
+    @users = User.where(sector_id: object.id, active: true)
     @users.map { |user| UserSerializer.new(user) }
   end
 

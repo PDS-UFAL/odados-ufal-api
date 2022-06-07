@@ -12,4 +12,15 @@
 #
 class SectorSerializer < ActiveModel::Serializer
   attributes :id, :name, :abbreviation, :email, :responsible
+  attribute :users , if: :condition?
+
+  def condition?
+    @instance_options[:users_flag].present? and @instance_options[:users_flag]
+  end
+
+  def users
+    @users = User.where(sector_id: object.id, active: true)
+    @users.map { |user| UserSerializer.new(user) }
+  end
+
 end

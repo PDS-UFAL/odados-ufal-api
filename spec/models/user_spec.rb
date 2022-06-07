@@ -3,7 +3,9 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
+#  active                 :boolean          default(TRUE), not null
 #  email                  :string           not null
+#  name                   :string
 #  password_digest        :string           not null
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string

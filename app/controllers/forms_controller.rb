@@ -74,7 +74,7 @@ class FormsController < ApplicationController
     if @current_user.employee?
       render json: @form, serializer: Tables::FormSerializer, sector: @current_user.sector.id
     elsif params[:sector_id].present?
-      render json: @form, serializer: Tables::FormSerializer, sector: params[:sector_id]
+      render json: @form, serializer: Tables::FormSerializer, sector: params[:sector_id].to_i
     else 
       render json: @form, serializer: Tables::FormSerializer
     end

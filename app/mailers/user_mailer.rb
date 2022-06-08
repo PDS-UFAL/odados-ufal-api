@@ -1,4 +1,9 @@
 class UserMailer < ApplicationMailer
+  def user_creation
+    @user = params[:user]
+    mail(to: @user.email, subject: "O seu usuário foi criado no sistema Observatório de Dados UFAL")
+  end
+
   def form_creation
     @user = params[:user]
     @form = params[:form]

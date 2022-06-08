@@ -95,7 +95,12 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:email, :name, :password, :password_confirmation, :sector_id)
+    perm_params = params.require(:user).permit(:email, :name, :password, :password_confirmation, :sector_id)
+    if perm_params[:password].nil? 
+      perm_params[:password] = SecureRandom.hex(8)
+      perm_params[:password_confirmation] = perm_params[:password]
+    end
+    perm_params
   end
 
   def reset_password_params

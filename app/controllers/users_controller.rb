@@ -38,12 +38,22 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    @user = User.new(user_params)
+    @params = user_params
+    @user = User.where(email: @params[:email], name: @params[:sector_id], sector_id: @params[:sector_id])[0]
 
-    if @user.save
-      render json: @user, status: :created
+    if @user.nil?
+      @user = User.new(@params)
+      if @user.save
+        render json: @user, status: :created
+      else
+        render json: @user.errors, status: :unprocessable_entity
+      end
     else
-      render json: @user.errors, status: :unprocessable_entity
+      if @user.update({ active: true })
+        render json: @user
+      else
+        render json: @user.errors, status: :unprocessable_entity
+      end
     end
   end
 

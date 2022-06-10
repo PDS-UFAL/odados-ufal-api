@@ -1,7 +1,7 @@
 class UserMailer < ApplicationMailer
   def user_creation
     @user = params[:user]
-    @url = "#{ENV['FRONTEND_URL']}/redefinir-senha?token=#{params[:user].reset_password_token}"
+    @url = "#{ENV['FRONTEND_URL']}/forgot-password"
     mail(to: @user.email, subject: "O seu usuário foi criado no sistema Observatório de Dados UFAL")
   end
 

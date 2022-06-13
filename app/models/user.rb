@@ -45,6 +45,12 @@ class User < ApplicationRecord
 
   scope :sector_id, ->(sector_id) { where(sector_id: sector_id) }
   scope :role, ->(role) { where(role: role) }
+
+  after_create :send_user_notification
+
+  def send_user_notification 
+    UserMailer.with(user: self).user_creation.deliver_now
+  end
   
   def send_form_notification form
     if not form.is_history and self.active?

@@ -5,11 +5,15 @@ class FormsController < ApplicationController
   def index
     @forms = Form.all
 
-    params[:sort_by] = "title" unless Form.column_names.include? params[:sort_by]
-    params[:sort_direction] = "asc" unless sort_directions.include? params[:sort_direction]
+    if params[:sort_by].present?
+      params[:sort_by] = "title" unless Form.column_names.include? params[:sort_by]
+      params[:sort_direction] = "asc" unless sort_directions.include? params[:sort_direction]
 
-    @forms = @forms.order("#{params[:sort_by]}": :"#{params[:sort_direction]}")
-    @forms = @forms.page(params[:page]).per(params[:page_size] || 15) if params[:page].present?
+      @forms = @forms.order("#{params[:sort_by]}": :"#{params[:sort_direction]}")
+      @forms = @forms.page(params[:page]).per(params[:page_size] || 15) if params[:page].present?
+    else 
+      @forms = @forms.sort { |a, b| (a.title <=> b.title) == 0 ? (b.created_at <=> a.created_at) : (a.title <=> b.title) }
+    end
 
     render json: @forms, each_serializer: Forms::FormSerializer
   end
@@ -26,19 +30,27 @@ class FormsController < ApplicationController
       return render json: { error: "Sector not included in this form." }, status: :unprocessable_entity
     end
 
-    fsend_params = { 
-      subtitle: params[:year].to_s, 
-      start_date: Time.current, 
-      end_date: Time.current + 1.day, 
-      year: params[:year], 
-      form_id: params[:form_id], 
-      sector_ids: [ params[:sector_id] ],
-      is_history: true
-    }
+    fsend = FormSend.where(form_id: params[:form_id], year: params[:year], is_history: true)[0]
 
-    fsend = FormSend.create!(fsend_params)
+    if fsend.nil?
+      @form = Form.find(params[:form_id])
+      fsend_params = { 
+        subtitle: params[:year].to_s, 
+        start_date: Time.current, 
+        end_date: Time.current + 99999.years, 
+        year: params[:year], 
+        form_id: params[:form_id], 
+        sector_ids: @form.sector_ids,
+        is_history: true
+      }
+      fsend = FormSend.create!(fsend_params)
+    end
 
     @form_sector = fsend.form_sectors.find_by(sector_id: params[:sector_id])
+
+    if @form_sector.status != "waiting_response"
+      return render json: { error: "This history has already been created" }, status: :unprocessable_entity
+    end
 
     responses = params[:responses]
     responses.map { |response| response[:user_id] = @current_user.id }

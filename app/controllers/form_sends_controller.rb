@@ -4,7 +4,7 @@ class FormSendsController < ApplicationController
   # GET /form_sends
   def index
     @form_sends = FormSend.filter(filter_params)
-    @form_sends = @form_sends.where("is_history = true OR is_history IS ?", nil) if params[:no_history].present?
+    @form_sends = @form_sends.where("is_history = false OR is_history IS ?", nil) if params[:no_history].present?
 
     status_count = count_status
 

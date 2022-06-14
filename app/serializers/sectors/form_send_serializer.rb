@@ -24,7 +24,7 @@ class Sectors::FormSendSerializer < ActiveModel::Serializer
 			  end
 	  
 			  class Sectors::QuestionSerializer < ActiveModel::Serializer
-				  attributes :id, :title, :type, :required, :max_char, :max_value, :min_value, :options, :responses
+				  attributes :id, :title, :description, :type, :required, :max_char, :max_value, :min_value, :options, :responses
 				  
 				  def responses
 					@responses = object.responses.where(fsend: $fsend)

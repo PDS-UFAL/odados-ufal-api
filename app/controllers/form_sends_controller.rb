@@ -8,10 +8,14 @@ class FormSendsController < ApplicationController
 
     status_count = count_status
 
-    params[:sort_by] = "subtitle" unless FormSend.column_names.include? params[:sort_by]
-    params[:sort_direction] = "asc" unless sort_directions.include? params[:sort_direction]
-    
-    @form_sends = @form_sends.order("#{params[:sort_by]}": :"#{params[:sort_direction]}")
+    if params[:sort_by].present?
+      params[:sort_by] = "subtitle" unless FormSend.column_names.include? params[:sort_by]
+      params[:sort_direction] = "asc" unless sort_directions.include? params[:sort_direction]
+      @form_sends = @form_sends.order("#{params[:sort_by]}": :"#{params[:sort_direction]}")
+    else
+      @form_sends = @form_sends.sort { |a, b| compare(a, b) }
+    end
+
     @form_sends = @form_sends.page(params[:page]).per(params[:page_size] || 15) if params[:page].present?
 
     render json: @form_sends, each_serializer: Lists::FormSendSerializer, meta: meta_info(@form_sends, status_count)
@@ -54,6 +58,27 @@ class FormSendsController < ApplicationController
   end
 
   private
+    def status_priority status
+      if status == "open"
+          return 0
+      elsif status == "not_started"
+        return 1
+      end
+      return 2
+    end
+
+    def compare a, b
+      if (status_priority(a.status) <=> status_priority(b.status)) == 0 
+        if (a.end_date <=> b.end_date) == 0 
+          return (a.subtitle <=> b.subtitle)
+        else 
+          return (a.end_date <=> b.end_date)
+        end
+      else 
+        return (status_priority(a.status) <=> status_priority(b.status))
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_form_send
       $fsend = params[:id]

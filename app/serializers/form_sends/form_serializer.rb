@@ -27,7 +27,7 @@ class FormSends::FormSerializer < ActiveModel::Serializer
       end
 
       class FormSends::QuestionSerializer < ActiveModel::Serializer
-          attributes :id, :title, :type, :required, :max_char, :max_value, :min_value, :options, :responses
+          attributes :id, :title, :description, :type, :required, :max_char, :max_value, :min_value, :options, :responses
 
           def responses
               @responses = object.responses

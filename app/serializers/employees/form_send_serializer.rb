@@ -14,7 +14,7 @@ class Employees::FormSendSerializer < ActiveModel::Serializer
 		end
 
 		class Employees::QuestionSerializer < ActiveModel::Serializer
-			attributes :id, :title, :type, :required, :max_char, :max_value, :min_value, :options, :responses
+			attributes :id, :title, :description, :type, :required, :max_char, :max_value, :min_value, :options, :responses
 			
 			def responses
 				object.responses&.select { |response| response.user_id == @instance_options[:user].id }.map { |response| Employees::ResponseSerializer.new(response) }

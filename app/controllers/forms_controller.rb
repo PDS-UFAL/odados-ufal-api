@@ -8,12 +8,12 @@ class FormsController < ApplicationController
     if params[:sort_by].present?
       params[:sort_by] = "title" unless Form.column_names.include? params[:sort_by]
       params[:sort_direction] = "asc" unless sort_directions.include? params[:sort_direction]
-
       @forms = @forms.order("#{params[:sort_by]}": :"#{params[:sort_direction]}")
-      @forms = @forms.page(params[:page]).per(params[:page_size] || 15) if params[:page].present?
     else 
       @forms = @forms.sort { |a, b| (a.title <=> b.title) == 0 ? (b.created_at <=> a.created_at) : (a.title <=> b.title) }
     end
+
+    @forms = @forms.page(params[:page]).per(params[:page_size] || 15) if params[:page].present?
 
     render json: @forms, each_serializer: Forms::FormSerializer
   end

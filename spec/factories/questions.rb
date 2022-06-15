@@ -2,17 +2,18 @@
 #
 # Table name: questions
 #
-#  id         :bigint           not null, primary key
-#  max_char   :integer
-#  max_value  :integer
-#  min_value  :integer
-#  options    :string           default([]), is an Array
-#  required   :boolean
-#  title      :string           not null
-#  type       :string           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  section_id :bigint           not null
+#  id          :bigint           not null, primary key
+#  description :string
+#  max_char    :integer
+#  max_value   :integer
+#  min_value   :integer
+#  options     :string           default([]), is an Array
+#  required    :boolean
+#  title       :string           not null
+#  type        :string           not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  section_id  :bigint           not null
 #
 # Indexes
 #

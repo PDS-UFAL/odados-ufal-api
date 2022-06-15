@@ -17,7 +17,7 @@ class Forms::FormSerializer < ActiveModel::Serializer
         end
 
         class Forms::QuestionSerializer < ActiveModel::Serializer
-            attributes :id, :title, :type, :required, :max_char, :max_value, :min_value, :options, :responses
+            attributes :id, :title, :description, :type, :required, :max_char, :max_value, :min_value, :options, :responses
 
             def responses
                 object.responses.map { |response| Forms::ResponseSerializer.new(response) }

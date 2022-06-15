@@ -138,6 +138,7 @@ class FormsController < ApplicationController
             :title,
             :type,
             :required,
+            :description,
             :max_char,
             :max_value,
             :min_value,

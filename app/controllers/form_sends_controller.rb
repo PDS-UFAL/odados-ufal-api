@@ -46,7 +46,7 @@ class FormSendsController < ApplicationController
 
   # PATCH/PUT /form_sends/1
   def update
-    if @form_send.update(form_send_params)
+    if @form_send.update(update_form_send_params)
       render json: @form_send
     else
       render json: @form_send.errors, status: :unprocessable_entity
@@ -118,6 +118,11 @@ class FormSendsController < ApplicationController
       meta_info.merge!(total_pages: collection.total_pages, total_count: collection.total_count) if params[:page].present?
 
       meta_info
+    end
+
+    def update_form_send_params
+      perm_params = params.require(:form_send).permit(:subtitle, :year, :start_date, :end_date)
+      perm_params
     end
 
     # Only allow a list of trusted parameters through.

@@ -12,14 +12,15 @@ class FormSendsController < ApplicationController
       params[:sort_by] = "subtitle" unless FormSend.column_names.include? params[:sort_by]
       params[:sort_direction] = "asc" unless sort_directions.include? params[:sort_direction]
       @form_sends = @form_sends.order("#{params[:sort_by]}": :"#{params[:sort_direction]}")
+      @form_sends = @form_sends.page(params[:page]).per(params[:page_size] || 15) if params[:page].present?
+      @meta_info = meta_info(@form_sends, status_count)
+      return render json: @form_sends, each_serializer: Lists::FormSendSerializer, meta: @meta_info
     else
+      @form_sends = @form_sends.page(params[:page]).per(params[:page_size] || 15) if params[:page].present?
+      @meta_info = meta_info(@form_sends, status_count)
       @form_sends = @form_sends.sort { |a, b| compare(a, b) }
+      return render json: @form_sends, each_serializer: Lists::FormSendSerializer, meta: @meta_info
     end
-
-    @form_sends = @form_sends.page(params[:page]).per(params[:page_size] || 15) if params[:page].present?
-
-    render json: @form_sends, each_serializer: Lists::FormSendSerializer, meta: meta_info(@form_sends, status_count)
-
   end
 
   # GET /form_sends/1
@@ -45,7 +46,7 @@ class FormSendsController < ApplicationController
 
   # PATCH/PUT /form_sends/1
   def update
-    if @form_send.update(form_send_params)
+    if @form_send.update(update_form_send_params)
       render json: @form_send
     else
       render json: @form_send.errors, status: :unprocessable_entity
@@ -117,6 +118,11 @@ class FormSendsController < ApplicationController
       meta_info.merge!(total_pages: collection.total_pages, total_count: collection.total_count) if params[:page].present?
 
       meta_info
+    end
+
+    def update_form_send_params
+      perm_params = params.require(:form_send).permit(:subtitle, :year, :start_date, :end_date)
+      perm_params
     end
 
     # Only allow a list of trusted parameters through.

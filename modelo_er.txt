@@ -1,0 +1,112 @@
+//// -- LEVEL 1
+//// -- Tables and References
+
+// Creating tables
+Table users as U {
+  id integer [pk, increment] // auto-increment
+  email string
+  name string
+  active boolean
+  role integer
+  password_digest string
+  reset_password_sent_at datetime
+  reset_password_token string
+  sector_id integer
+  created_at datetime
+  updated_at datetime
+}
+
+Table sector as S {
+  id integer [pk, increment] // auto-increment
+  email string
+  name string
+  abbreviation integer
+  responsible string
+  created_at datetime
+  updated_at datetime
+}
+
+Table form as F {
+  id integer [pk, increment] // auto-increment
+  title string
+  description string //campo nullable
+  created_at datetime
+  updated_at datetime
+  sector_ids array
+}
+
+Table form_sector as FS {
+  id integer [pk, increment] // auto-increment
+  sector_id integer
+  form_send_id integer
+  status integer
+  created_at datetime
+  updated_at datetime
+}
+
+Table form_send as FSd {
+  id integer [pk, increment] // auto-increment
+  start_date datetime
+  end_date datetime
+  status integer
+  subtitle string
+  year integer
+  form_id integer
+  created_at datetime
+  updated_at datetime
+  is_history boolan
+}
+
+Table section {
+  id integer [pk, increment] // auto-increment
+  name string
+  form_id integer
+  created_at datetime
+  updated_at datetime
+}
+
+Table question as Q {
+  id integer [pk, increment]
+  title string
+  description string
+  type string
+  submit_many_times boolean
+  required boolean
+  max_char integer
+  min_value integer
+  max_value integer
+  options array
+  section_id integer
+  created_at datetime
+  updated_at datetime
+}
+
+Table response as R{
+  id integer [pk, increment]
+  answer string
+  question_id integer
+  user_id integer
+  created_at datetime
+  updated_at datetime
+  fsend integer
+  sector_id integer
+}
+
+Ref: U.sector_id > S.id
+Ref: FS.sector_id - S.id
+Ref: FS.form_send_id - FSd.id
+Ref: section.form_id > F.id
+Ref: Q.section_id > section.id
+Ref: R.user_id > U.id
+Ref: R.question_id > Q.id
+Ref: R.fsend > FSd.id
+Ref: R.sector_id > S.id
+Ref: FSd.form_id > F.id
+
+// Creating references
+// You can also define relaionship separately
+// > many-to-one; < one-to-many; - one-to-one
+//Ref: U.country_code > countries.code  
+//Ref: merchants.country_code > countries.code
+
+//----------------------------------------------//

@@ -26,7 +26,7 @@ class FormSendsController < ApplicationController
       @form_sends = @form_sends.sort { |a, b| compare(a, b) }
 
       if @form_sends.length == 0
-        return render json: "{ \"forms_sends\": [] }"
+        return render json: "{ \"form_sends\": [] }"
       end
 
       return render json: @form_sends, each_serializer: Lists::FormSendSerializer, meta: @meta_info

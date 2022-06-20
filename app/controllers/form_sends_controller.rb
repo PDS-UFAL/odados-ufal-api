@@ -14,11 +14,21 @@ class FormSendsController < ApplicationController
       @form_sends = @form_sends.order("#{params[:sort_by]}": :"#{params[:sort_direction]}")
       @form_sends = @form_sends.page(params[:page]).per(params[:page_size] || 15) if params[:page].present?
       @meta_info = meta_info(@form_sends, status_count)
+
+      if @form_sends.length == 0
+        return render json: "{ \"forms_sends\": [] }"
+      end
+
       return render json: @form_sends, each_serializer: Lists::FormSendSerializer, meta: @meta_info
     else
       @form_sends = @form_sends.page(params[:page]).per(params[:page_size] || 15) if params[:page].present?
       @meta_info = meta_info(@form_sends, status_count)
       @form_sends = @form_sends.sort { |a, b| compare(a, b) }
+
+      if @form_sends.length == 0
+        return render json: "{ \"forms_sends\": [] }"
+      end
+
       return render json: @form_sends, each_serializer: Lists::FormSendSerializer, meta: @meta_info
     end
   end

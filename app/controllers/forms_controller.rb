@@ -15,6 +15,10 @@ class FormsController < ApplicationController
       @forms = @forms.sort { |a, b| (a.title <=> b.title) == 0 ? (b.created_at <=> a.created_at) : (a.title <=> b.title) }
     end
 
+    if @forms.length == 0
+      return render json: "{ \"forms\": [] }"
+    end
+    
     render json: @forms, each_serializer: Forms::FormSerializer
   end
 

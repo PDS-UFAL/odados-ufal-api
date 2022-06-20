@@ -16,7 +16,7 @@ class FormSendsController < ApplicationController
       @meta_info = meta_info(@form_sends, status_count)
 
       if @form_sends.length == 0
-        return render json: "{ \"forms_sends\": [] }"
+        return render json: "{ \"form_sends\": [] }"
       end
 
       return render json: @form_sends, each_serializer: Lists::FormSendSerializer, meta: @meta_info

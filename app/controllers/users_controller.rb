@@ -39,7 +39,7 @@ class UsersController < ApplicationController
   # POST /users
   def create
     @params = user_params
-    @user = User.where(email: @params[:email], name: @params[:sector_id], sector_id: @params[:sector_id])[0]
+    @user = User.where(email: @params[:email], sector_id: @params[:sector_id])[0]
 
     if @user.nil?
       @user = User.new(@params)
@@ -49,7 +49,7 @@ class UsersController < ApplicationController
         render json: @user.errors, status: :unprocessable_entity
       end
     else
-      if @user.update({ active: true })
+      if @user.update({ active: true, name: @params[:name] })
         render json: @user
       else
         render json: @user.errors, status: :unprocessable_entity

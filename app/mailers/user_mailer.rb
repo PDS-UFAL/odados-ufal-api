@@ -2,6 +2,7 @@ class UserMailer < ApplicationMailer
   def user_creation
     @user = params[:user]
     @url = "#{ENV['FRONTEND_URL']}/forgot-password"
+    @sector = Sector.find(@user.sector_id)
     mail(to: @user.email, subject: "O seu usuário foi criado no sistema Observatório de Dados UFAL")
   end
 
